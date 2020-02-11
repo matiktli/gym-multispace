@@ -22,3 +22,7 @@ gym.make('mutlispace-v0')
 ## License
 
 Free
+
+---
+
+Thanks to OpenAi for sharing resources: <https://github.com/openai/multiagent-particle-envs>
