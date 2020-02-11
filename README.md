@@ -1,4 +1,4 @@
-# Gym PyTemplate
+# Gym Multispace
 
 Project description
 
@@ -15,7 +15,7 @@ Test:
 
 ```python
 import gym
-import gym_pytemplate
+import gym_multispace
 gym.make('mutlispace-v0')
 ```
 
