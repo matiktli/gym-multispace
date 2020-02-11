@@ -1,3 +1,4 @@
+from gym_multispace.mutli_agent_env import MultiAgentSpaceEnv
 from gym.envs.registration import register
 
 register(
