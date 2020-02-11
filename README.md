@@ -1,6 +1,6 @@
-# Gym Multispace
+# Multi-Agent Space Environment GymAI
 
-Project description
+Inspired by: [Halite.io - 1st edition](https://2016.halite.io/index.html).
 
 ## About
 
@@ -25,4 +25,5 @@ Free
 
 ---
 
-Thanks to OpenAi for sharing resources: <https://github.com/openai/multiagent-particle-envs>
+Thanks to Hailite.io for inspiration: <https://2016.halite.io/index.html>.\
+Thanks to OpenAi for sharing resources: <https://github.com/openai/multiagent-particle-envs>.
