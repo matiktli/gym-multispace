@@ -1,5 +1,6 @@
 import entity as entity
 import world_engine as engine
+import world_state as state
 
 
 # Multi agent word representation
@@ -8,26 +9,39 @@ class World():
     def __init__(self, agents=None, special_objects=None):
         self.agents = agents
         self.special_objects = special_objects
-        self.engine = engine.PhysicEngine()
+        self.state = state.WorldState()
+        self.engine = engine.PhysicEngine(self.state)
 
     # Update state of the world
     def step(self):
+        # Get actions from callback to agents decision makers
+        self.agents = self.__set_agents_actions_from_callback()
+        # After actions come responses from environment
+        self.__perform_world_actions(self.agents)
+
+    def __set_agents_actions_from_callback(self, agents):
+        for agent in agents:
+            # Pass agent and world to agent action callback func
+            agent.action = agent.action_callback(agent, self)
+        return agents
+
+    def __perform_world_actions(self, agents):
         pass
 
     # Return all objects in the world
     @property
     def objects_all(self):
-        pass
+        return self.agents + self.special_objects
 
     # Return all agents in the world
     @property
     def objects_agents_all(self):
-        pass
+        return self.agents
 
     # Return agents in the world controlled by model
     @property
     def objects_agents_ai(self):
-        pass
+        return [smart_agent for smart_agent in self.agents if smart_agent.]
 
     # Return agents in the world controlled by world script
     @property

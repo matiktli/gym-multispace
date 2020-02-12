@@ -3,5 +3,5 @@
 # Physic engine of the world
 class PhysicEngine():
 
-    def __init__(self):
-        pass
+    def __init__(self, world_state):
+        self.world_state = world_state

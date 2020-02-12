@@ -1,22 +1,35 @@
 from abc import ABC, abstractmethod
 
 
-# Quadrant object state
-class QuadrantPhysicalState(ABC):
+# Entity object state (we store here values that in game might change mostly)
+class EntityPhysicalState(ABC):
 
-    def __init__(self, pos=None):
+    def __init__(self, pos=(-1, -1), size=0, mass=0, vel=0, acc=0):
+        # Position
         self.pos = pos
+
+        # Size
+        self.size = size
+
+        # Mass
+        self.mass = mass
+
+        # Velocity
+        self.vel = vel
+
+        # Acceleration
+        self.acc = acc
 
 
 # Physical agent state
-class AgentPhysicalState(QuadrantPhysicalState):
+class AgentPhysicalState(EntityPhysicalState):
 
-    def __init__(self, pos=None):
-        super().__init__(pos)
+    def __init__(self, pos=None, size=None, mass=None, vel=None, acc=None):
+        super().__init__(pos, size, mass, vel, acc)
 
 
 # Physical special object state
-class SpecialObjectPhysicalState(QuadrantPhysicalState):
+class SpecialObjectPhysicalState(EntityPhysicalState):
 
-    def __init__(self, pos=None):
-        super().__init__(pos)
+    def __init__(self, pos=None, size=None, mass=None, vel=None, acc=None):
+        super().__init__(pos, size, mass, vel, acc)
