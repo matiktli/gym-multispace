@@ -10,4 +10,4 @@ class AgentAction():
 
     def __init__(self, physical_action=None):
         # Phisical action
-        self.phy = physical_action
+        self.physical = physical_action

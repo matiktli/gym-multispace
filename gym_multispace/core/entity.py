@@ -27,10 +27,11 @@ class Entity(ABC):
 # Agent is occuping quadrant's space, sharing its state
 class Agent(Entity):
 
-    def __init__(self, agent_type=None, action_callback=None):
+    def __init__(self, agent_type=None, view_range=None, action_callback=None):
         super().__init__()
         self.state = states.AgentPhysicalState()
         self.type = agent_type
+        self.view_range = view_range
         self.action_callback = action_callback
 
         # Initialise agent action

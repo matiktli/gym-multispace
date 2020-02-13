@@ -6,7 +6,10 @@ import world_state as state
 # Multi agent word representation
 class World():
 
+    WORLD_DIM = 2
+
     def __init__(self, agents=None, special_objects=None):
+        self.world_dim = World.WORLD_DIM
         self.agents = agents
         self.special_objects = special_objects
         self.state = state.WorldState()
