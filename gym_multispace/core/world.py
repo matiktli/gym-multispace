@@ -14,6 +14,8 @@ class World():
         self.special_objects = special_objects
         self.state = state.WorldState()
         self.engine = engine.PhysicEngine(self.state)
+        self.is_discrete = True
+        self.is_shared_reward = False
 
     # Update state of the world
     def step(self):
