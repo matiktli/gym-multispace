@@ -1,7 +1,10 @@
-from core.world import World
-from numpy import np
-from core.entity import Agent, SpecialObject
+from gym_multispace.core.world import World
+from gym_multispace.core.entity import Agent, SpecialObject
+
 from abc import ABC, abstractmethod
+import imp
+import os
+import numpy as np
 
 
 # Base scenario class to implement custom ones
@@ -29,30 +32,8 @@ class BaseScenario(ABC):
         raise NotImplementedError()
 
 
-class TestScenario(BaseScenario):
-
-    def generate_world(self):
-        world = World()
-        world.agents = [Agent()]
-        world.special_objects = [SpecialObject()]
-
-        for i, agent in world.agents:
-            agent.can_collide = False
-            agent.can_grab = False
-            agent.uuid = f'a_{i}'
-            agent.view_range = np.inf
-
-        for i, special_obj in world.special_objects:
-            special_obj.uuid = f'o_{i}'
-            special_obj.can_collide = False
-
-        return world
-
-    def reset_world(self):
-        raise NotImplementedError()
-
-    def get_reward(self, agent, world):
-        raise NotImplementedError()
-
-    def get_observation(self, agent, world):
-        raise NotImplementedError()
+# Utility function to load scenarios from python file
+def load_scenario_from_file(file_path):
+    pathname = os.path.join(os.path.dirname(__file__), file_path)
+    obj = imp.load_source('', pathname)
+    return obj

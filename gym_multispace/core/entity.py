@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-import entity_state as states
-import action as actions
+import gym_multispace.core.entity_state as states
+import gym_multispace.core.action as actions
 
 
 # Entity is representing part of space in the world

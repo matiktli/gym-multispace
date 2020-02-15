@@ -1,6 +1,6 @@
-import world_engine as engine
-import world_state as state
-import entity as ent
+import gym_multispace.core.world_engine as engine
+import gym_multispace.core.world_state as state
+import gym_multispace.core.entity as ent
 
 
 # Multi agent word representation
