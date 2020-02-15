@@ -8,6 +8,7 @@ import numpy as np
 class Scenario(BaseScenario):
 
     def generate_world(self):
+        print('GENERATING WORLD')
         world = World()
         world.is_reward_shared = False
         world.is_discrete = True
@@ -19,18 +20,22 @@ class Scenario(BaseScenario):
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
-
         for i, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{i}'
             special_obj.can_collide = False
 
         return world
 
-    def reset_world(self):
-        raise NotImplementedError()
+    def reset_world(self, world):
+        print('RESETING WORLD')
+        for i, agent in enumerate(world.agents):
+            agent.state.pos = (1, 1)
 
     def get_reward(self, agent, world):
-        raise NotImplementedError()
+        print('REWARDING AGENT')
+        return 1.0
 
     def get_observation(self, agent, world):
-        raise NotImplementedError()
+        # Simple observation of agent position
+        print('OBSERVING WORLD')
+        return np.zeros(0)

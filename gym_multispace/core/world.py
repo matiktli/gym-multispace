@@ -20,11 +20,12 @@ class World():
     # Update state of the world
     def step(self):
         # Get actions from callback to agents decision makers
-        self.agents = self.__set_agents_actions_from_callback(self.agents)
+        self.__set_scripted_agents_actions_from_callback(
+            self.objects_agents_script)
         # After actions come responses from environment
         self.__perform_world_actions(self.agents)
 
-    def __set_agents_actions_from_callback(self, agents):
+    def __set_scripted_agents_actions_from_callback(self, agents):
         for agent in agents:
             # Pass agent and world to agent action callback func
             agent.action = agent.action_callback(agent, self)
@@ -46,12 +47,12 @@ class World():
     # Return agents in the world controlled by model
     @property
     def objects_agents_ai(self):
-        return [agent for agent in self.agents if agent.action_callback is not None]
+        return [agent for agent in self.agents if agent.action_callback is None]
 
     # Return agents in the world controlled by world script
     @property
     def objects_agents_script(self):
-        pass
+        return [agent for agent in self.agents if agent.action_callback is not None]
 
     # Return all special objects in the world
     @property

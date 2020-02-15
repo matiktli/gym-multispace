@@ -59,15 +59,15 @@ class MultiAgentSpaceEnv(gym.Env):
         return observation_n, reward_n, done_n, info_n
 
     # Reset world, returning init observations for agents
-    def reset(self, world):
-        self.reset_callback(world)
+    def reset(self):
+        self.reset_callback(self.world)
 
         # record observations for each agent
         observation_n = []
         self.agents = self.world.objects_agents_ai
         for agent in self.agents:
             observation_n.append(
-                self.____get_observation_from_callback(agent, world))
+                self.____get_observation_from_callback(agent, self.world))
         return observation_n
 
     def render(self, mode='human', close=False):

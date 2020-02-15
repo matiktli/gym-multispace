@@ -18,7 +18,7 @@ class BaseScenario(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def reset_world(self):
+    def reset_world(self, world):
         raise NotImplementedError()
 
     # Get reward for agent base on scenario setup

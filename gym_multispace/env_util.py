@@ -1,8 +1,9 @@
 from gym_multispace.multi_agent_env import MultiAgentSpaceEnv
 from gym_multispace.scenario import load_scenario_from_file
+from gym import Env
 
 
-def create_env(scenario_path):
+def create_env(scenario_path) -> Env:
 
     scenario = load_scenario_from_file(scenario_path).Scenario()
     world = scenario.generate_world()
