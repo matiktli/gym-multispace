@@ -1,13 +1,10 @@
 from enum import Enum
 
 
-class AgentPhysicalAction(Enum):
-    pass
-
-
 # Agent taken action
 class AgentAction():
 
-    def __init__(self, physical_action=None):
+    def __init__(self, move_act=None, grab_act=None):
         # Phisical action
-        self.physical = physical_action
+        self.move_act = move_act
+        self.grap_act = grab_act

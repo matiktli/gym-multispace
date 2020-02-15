@@ -8,6 +8,9 @@ class Entity(ABC):
 
     def __init__(self):
 
+        # Set representation in that is `object_type_symbol`_`number` like: a_1, o_1.
+        self.uuid = None
+
         # Setup entity initial physical state
         self.state = states.EntityPhysicalState()
 
@@ -27,12 +30,16 @@ class Entity(ABC):
 # Agent is occuping quadrant's space, sharing its state
 class Agent(Entity):
 
-    def __init__(self, agent_type=None, view_range=None, action_callback=None):
+    def __init__(self, uuid=None, agent_type=None, agent_team=None, view_range=None, action_callback=None):
         super().__init__()
+        self.uuid = uuid
+        self.can_move = True
+        self.can_grab = True
         self.state = states.AgentPhysicalState()
-        self.type = agent_type
-        self.view_range = view_range
         self.action_callback = action_callback
+        self.type = agent_type
+        self.team = agent_team
+        self.view_range = view_range
 
         # Initialise agent action
         self.action = actions.AgentAction()
@@ -41,7 +48,8 @@ class Agent(Entity):
 # Special Object is occuping quadrant's space, sharing its state
 class SpecialObject(Entity):
 
-    def __init__(self, object_type=None):
+    def __init__(self, uuid=None, object_type=None):
         super().__init__()
+        self.uuid = uuid
         self.state = states.SpecialObjectPhysicalState()
         self.type = object_type

@@ -44,12 +44,12 @@ class MultiAgentSpaceEnv(gym.Env):
         self.world.step()
 
         # record observation for each agent
-        self.__record_observation_and_info_for_agents(self.agents,
-                                                      self.world,
-                                                      observation_n,
-                                                      reward_n,
-                                                      done_n,
-                                                      info_n)
+        self.__record_data_from_world_for_agents(self.agents,
+                                                 self.world,
+                                                 observation_n,
+                                                 reward_n,
+                                                 done_n,
+                                                 info_n)
 
         # all agents get total reward in shared reward mode case
         reward = np.sum(reward_n)
@@ -83,11 +83,12 @@ class MultiAgentSpaceEnv(gym.Env):
         self.observation_space = []
         for agent in agents:
             total_action_space = []
+
             # Generate move action space
             if agent.can_move:
-                p_space = self.____get_physical_action_space(
+                m_space = self.____get_move_action_space(
                     is_discrete, agent, world)
-                total_action_space.append(p_space)
+                total_action_space.append(m_space)
 
             # Generate grab action space
             if agent.can_grab:
@@ -113,7 +114,7 @@ class MultiAgentSpaceEnv(gym.Env):
             self.observation_space.append(obs_space)
 
     # Define MOVE action space for agent
-    def ____get_physical_action_space(self, is_discrete, agent, world):
+    def ____get_move_action_space(self, is_discrete, agent, world):
         if is_discrete:
                 # When space action is discrete our physical space have moves:
                 # FORWARD, BACKWARD, LEFT, RIGHT -> 2D * 2
@@ -148,11 +149,13 @@ class MultiAgentSpaceEnv(gym.Env):
     PART_2: Setting actions for agents.
     """
 
+    # @action_n - is array of actions per agent
     def __set_actions_for_agents(self, action_n, agents, action_space):
         for i, agent in enumerate(self.agents):
             self.____set_action_for_agent(
                 action_n[i], agent, self.action_space[i])
 
+    # @action - is action for agent
     def ____set_action_for_agent(self, action, agent, agent_action_space):
         if agent.can_move:
             self._____set_move_action_for_agent(
@@ -162,19 +165,21 @@ class MultiAgentSpaceEnv(gym.Env):
             self._____set_grab_action_for_agent(
                 action, agent, agent_action_space)
 
+    # @action - is action for agent
     def _____set_move_action_for_agent(self, action, agent, agent_action_space):
         # TODO set move action
-        pass
+        agent.action.move_act = np.zeros(self.world.world_dim)
 
+    # @action - is action for agent
     def _____set_grab_action_for_agent(self, action, agent, agent_action_space):
         # TODO set grab action
-        pass
+        agent.action.grab_act = np.zeros(0)
 
     """
     PART_3: Observation, reward. Collecting data from callbacks for given policy/scenario
     """
 
-    def __record_observation_and_info_for_agents(self, agents, world, observation_n, reward_n, done_n, info_n):
+    def __record_data_from_world_for_agents(self, agents, world, observation_n, reward_n, done_n, info_n):
         for agent in agents:
             observation_n.append(
                 self.____get_observation_from_callback(agent, world))

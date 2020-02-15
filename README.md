@@ -16,7 +16,7 @@ Test:
 ```python
 import gym
 import gym_multispace
-gym.make('mutlispace-v0')
+gym.make('multispace-v0')
 ```
 
 ## License

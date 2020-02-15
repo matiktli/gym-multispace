@@ -1,6 +1,6 @@
-import entity as entity
 import world_engine as engine
 import world_state as state
+import entity as ent
 
 
 # Multi agent word representation
@@ -20,7 +20,7 @@ class World():
     # Update state of the world
     def step(self):
         # Get actions from callback to agents decision makers
-        self.agents = self.__set_agents_actions_from_callback()
+        self.agents = self.__set_agents_actions_from_callback(self.agents)
         # After actions come responses from environment
         self.__perform_world_actions(self.agents)
 
@@ -46,7 +46,7 @@ class World():
     # Return agents in the world controlled by model
     @property
     def objects_agents_ai(self):
-        return [smart_agent for smart_agent in self.agents if smart_agent.]
+        return [agent for agent in self.agents if agent.action_callback is not None]
 
     # Return agents in the world controlled by world script
     @property
