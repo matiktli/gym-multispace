@@ -31,6 +31,9 @@ class Scenario(BaseScenario):
         for i, agent in enumerate(world.agents):
             agent.state.pos = (1, 1)
 
+        for i, special_obj in enumerate(world.special_objects):
+            special_obj.state.pos = (2, 2)
+
     def get_reward(self, agent, world):
         print('REWARDING AGENT')
         return 1.0

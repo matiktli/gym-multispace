@@ -12,7 +12,7 @@ class Entity(ABC):
         self.uuid = None
 
         # Setup entity initial physical state
-        self.state = states.EntityPhysicalState()
+        self.state = states.EntityState()
 
         # If entity can move by itself
         self.can_move = False
@@ -35,7 +35,7 @@ class Agent(Entity):
         self.uuid = uuid
         self.can_move = True
         self.can_grab = True
-        self.state = states.AgentPhysicalState()
+        self.state = states.AgentState()
         self.action_callback = action_callback
         self.type = agent_type
         self.team = agent_team
@@ -51,5 +51,5 @@ class SpecialObject(Entity):
     def __init__(self, uuid=None, object_type=None):
         super().__init__()
         self.uuid = uuid
-        self.state = states.SpecialObjectPhysicalState()
+        self.state = states.SpecialObjectState()
         self.type = object_type

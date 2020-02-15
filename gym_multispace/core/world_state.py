@@ -3,7 +3,17 @@
 # Representation of world physical state
 class WorldState():
 
+    WORLD_DIM_2D = 2
+    WORLD_SIZE_2D_SMALL = (20, 20)
+
+    WORLD_DIM_3D = 3
+    WORLD_SIZE_3D_SMALL = (20, 20, 20)
+
     def __init__(self):
+
+        self.dim = WorldState.WORLD_DIM_2D
+
+        self.size = WorldState.WORLD_SIZE_2D_SMALL
 
         # Time in between of simulation events in seconds
         self.timestamp = 1

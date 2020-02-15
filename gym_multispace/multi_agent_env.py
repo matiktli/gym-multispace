@@ -6,7 +6,7 @@ import numpy as np
 
 
 class MultiAgentSpaceEnv(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {'render.modes': ['human', 'rgb_array']}
 
     def __init__(self, world: World,
                  reward_callback=None,
@@ -70,7 +70,7 @@ class MultiAgentSpaceEnv(gym.Env):
                 self.____get_observation_from_callback(agent, self.world))
         return observation_n
 
-    def render(self, mode='human', close=False):
+    def render(self, mode='human'):
         # TODO render
         pass
 
@@ -120,11 +120,11 @@ class MultiAgentSpaceEnv(gym.Env):
                 # FORWARD, BACKWARD, LEFT, RIGHT -> 2D * 2
                 # STAY -> + 1
             agent_move_action_space = spaces.Discrete(
-                world.world_dim * 2 + 1)
+                world.state.dim * 2 + 1)
         else:
             agent_move_action_space = spaces.Box(low=-agent.move_range,
                                                  high=+agent.move_range,
-                                                 shape=(world.world_dim,),
+                                                 shape=(world.state.dim,),
                                                  dtype=np.float32)
         return agent_move_action_space
 
@@ -168,7 +168,7 @@ class MultiAgentSpaceEnv(gym.Env):
     # @action - is action for agent
     def _____set_move_action_for_agent(self, action, agent, agent_action_space):
         # TODO set move action
-        agent.action.move_act = np.zeros(self.world.world_dim)
+        agent.action.move_act = np.zeros(self.world.state.dim)
 
     # @action - is action for agent
     def _____set_grab_action_for_agent(self, action, agent, agent_action_space):
