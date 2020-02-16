@@ -1,8 +1,10 @@
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
-from .core.world import World
 import numpy as np
+
+from gym_multispace.core.world import World
+from gym_multispace.renderer import Renderer
 
 
 class MultiAgentSpaceEnv(gym.Env):
@@ -31,6 +33,7 @@ class MultiAgentSpaceEnv(gym.Env):
         # Configure GymAi action spaces for agents
         self.__init_action_spaces(self.world, self.agents, self.is_discrete)
         self.time = 0
+        self.renderer = Renderer()
 
     # Action from agent > step in world > observation & reward
     def step(self, action_n):
@@ -71,8 +74,11 @@ class MultiAgentSpaceEnv(gym.Env):
         return observation_n
 
     def render(self, mode='human'):
-        # TODO render
-        pass
+        # TODO take care of rendering objects
+        if mode == 'human':
+            self.renderer.render(return_rgb_array=False)
+        else:
+            return self.renderer.render(return_rgb_array=True)
 
     """
     PART_1: Initialization spaces for all agents
