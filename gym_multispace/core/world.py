@@ -10,7 +10,7 @@ class World():
         self.agents = agents
         self.special_objects = special_objects
         self.state = state.WorldState()
-        self.engine = engine.PhysicEngine(self.state)
+        self.engine = engine.PhysicEngine()
         self.is_discrete = True
         self.is_shared_reward = False
 
@@ -33,7 +33,8 @@ class World():
         # Gather actions on all entities into array.
         # Value in array is another array of forces applied in each dimension of the world
         entities_forces = [
-            [0.0 for _ in range(self.state.dim)] for _ in range(self.objects_all)]
+            [0.0 for _ in range(self.state.dim)] for _ in self.objects_all
+            ]
 
         # Apply forces coresponding to actions taken by agents
         self.engine.apply_actions_forces(self, entities_forces)

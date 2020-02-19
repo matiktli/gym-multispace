@@ -175,7 +175,8 @@ class MultiAgentSpaceEnv(gym.Env):
         # TODO set move action
         if self.is_discrete:
             agent.action.move_act = np.zeros(self.world.state.dim)
-            discrete_action = int(action[0])
+            print(action)
+            discrete_action = action
             action = ACTION(discrete_action)
         else:
             pass
