@@ -27,6 +27,13 @@ class CircleVisualObject(VisualObject):
         raise NotImplementedError()
 
 
+# Perform scalling operations world to visual representation
+class Scaler():
+
+    def __init__(self, world_real_size: tuple, world_visual_size: tuple):
+        self.vector_r_to_v = world_visual_size / world_real_size
+
+
 class Renderer():
 
     WINDOW_SIZE = (500, 500)

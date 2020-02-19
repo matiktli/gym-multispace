@@ -5,6 +5,7 @@ import numpy as np
 
 from gym_multispace.core.world import World
 from gym_multispace.renderer import Renderer
+from gym_multispace.core.action import ACTION
 
 
 class MultiAgentSpaceEnv(gym.Env):
@@ -41,7 +42,9 @@ class MultiAgentSpaceEnv(gym.Env):
         self.agents = self.world.objects_agents_ai
 
         # set agents actions
-        self.__set_actions_for_agents(action_n, self.agents, self.action_space)
+        for i, agent in enumerate(self.agents):
+            self.__set_action_for_agent(
+                action_n[i], agent, self.action_space[i])
 
         # make step in world
         self.world.step()
@@ -156,28 +159,30 @@ class MultiAgentSpaceEnv(gym.Env):
     """
 
     # @action_n - is array of actions per agent
-    def __set_actions_for_agents(self, action_n, agents, action_space):
-        for i, agent in enumerate(self.agents):
-            self.____set_action_for_agent(
-                action_n[i], agent, self.action_space[i])
 
     # @action - is action for agent
-    def ____set_action_for_agent(self, action, agent, agent_action_space):
+    def __set_action_for_agent(self, action, agent, agent_action_space):
         if agent.can_move:
-            self._____set_move_action_for_agent(
+            self.___set_move_action_for_agent(
                 action, agent, agent_action_space)
 
         if agent.can_grab:
-            self._____set_grab_action_for_agent(
+            self.___set_grab_action_for_agent(
                 action, agent, agent_action_space)
 
     # @action - is action for agent
-    def _____set_move_action_for_agent(self, action, agent, agent_action_space):
+    def ___set_move_action_for_agent(self, action, agent, agent_action_space):
         # TODO set move action
-        agent.action.move_act = np.zeros(self.world.state.dim)
+        if self.is_discrete:
+            agent.action.move_act = np.zeros(self.world.state.dim)
+            discrete_action = int(action[0])
+            action = ACTION(discrete_action)
+        else:
+            pass
 
     # @action - is action for agent
-    def _____set_grab_action_for_agent(self, action, agent, agent_action_space):
+
+    def ___set_grab_action_for_agent(self, action, agent, agent_action_space):
         # TODO set grab action
         agent.action.grab_act = np.zeros(0)
 

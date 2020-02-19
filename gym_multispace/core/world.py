@@ -16,11 +16,12 @@ class World():
 
     # Update state of the world
     def step(self):
-        # Get actions from callback to agents decision makers
+        # Get actions from callback for scripted (computer) agents
         self.__set_scripted_agents_actions_from_callback(
             self.objects_agents_script)
-        # After actions come responses from environment
-        self.__perform_world_actions(self.agents)
+
+        # Perform all PHYSICAL actions in envrionemnt
+        self.__proccess_physic_state()
 
     def __set_scripted_agents_actions_from_callback(self, agents):
         for agent in agents:
@@ -28,8 +29,20 @@ class World():
             agent.action = agent.action_callback(agent, self)
         return agents
 
-    def __perform_world_actions(self, agents):
-        pass
+    def __proccess_physic_state(self):
+        # Gather actions on all entities into array.
+        # Value in array is another array of forces applied in each dimension of the world
+        entities_forces = [
+            [0.0 for _ in range(self.state.dim)] for _ in range(self.objects_all)]
+
+        # Apply forces coresponding to actions taken by agents
+        self.engine.apply_actions_forces(self, entities_forces)
+
+        # Apply forces from interactions between objects
+        self.engine.apply_physical_interaction_forces(self, entities_forces)
+
+        # Calculate new state of entities/world after all forces applied
+        self.engine.calculate_new_state(self, entities_forces)
 
     # Return all objects in the world
     @property
@@ -54,9 +67,9 @@ class World():
     # Return all special objects in the world
     @property
     def objects_special_all(self):
-        pass
+        self.special_objects
 
     # Return special objects in the world, of type: @type
     @property
     def objects_special_type(self, type):
-        pass
+        raise NotImplementedError()

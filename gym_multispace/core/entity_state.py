@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 # Entity object state (we store here values that in game might change mostly)
 class EntityState(ABC):
 
-    def __init__(self, pos=(-1, -1), size=0, mass=0, vel=0, acc=0):
+    def __init__(self, pos=(-1, -1), size=1, mass=0, vel=0, acc=0):
         # Position
         self.pos = pos
 
