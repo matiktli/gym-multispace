@@ -45,13 +45,30 @@ class PhysicEngine():
 
     # Calculate new state of entities/world after all forces applied
     def calculate_new_state(self, world, entities_forces):
-        # TODO calculate new state of the world
-        pass
+        for i, entity in enumerate(world.objects_all):
+            # This check is unnecessary, at this point not forces
+            # should be applyed if entity can not move
+            if entity.can_move:
+                # Calculate new velocity for entity
+                entity.state.vel = Equations.calculate_velocity(entity.state.vel,
+                                                                entities_forces[i],
+                                                                entity.state.mass,
+                                                                entity.state.max_speed,
+                                                                world.state.friction,
+                                                                world.timestamp)
+                # Calculate new position for entity
+                entity.state.pos = Equations.calculate_position(entity.state.pos,
+                                                                entity.state.vel,
+                                                                world.timestamp)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+        distance_between = Equations.distance(entity_a.state.pos,
+                                              entity_b.state.pos)
+        delta_position = Equations.delta_position(entity_a.state.pos,
+                                                  entity_b.state.pos)
+        distance_of_collision = Equations.min_distance(entity_a.state.size,
+                                                       entity_b.state.size)
         # TODO impl collision force
-        distance = Equations.delta_distance(entity_a.state.pos, entity_b.pos)
-
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
@@ -62,9 +79,38 @@ class PhysicEngine():
 # Simple wrapper for equations since I am bad at remembering them
 class Equations:
 
-    # Distance between to positions in X dim
+    # Delta position betwenn positions in X dim
     @staticmethod
-    def delta_distance(pos_a, pos_b):
-        d_pos = pos_a - pos_b
+    def delta_position(pos_a, pos_b):
+        return pos_a - pos_b
+
+    # Distance between two positions in X dim
+    @staticmethod
+    def distance(pos_a, pos_b):
+        d_pos = Equations.delta_position(pos_a, pos_b)
         # multidimensional pitagorean equation
         return np.sqrt(np.sum(np.square(d_pos)))
+
+    # Distance of collision of two objects
+    @staticmethod
+    def min_distance(size_a, size_b):
+        return size_a + size_b
+
+    @staticmethod
+    def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
+        new_velocity = velocity * (1 - friction)
+        if (force is not None):
+            new_velocity += (force / mass) * timestamp
+        if max_speed is not None:
+            # todo2 change to multi dim
+            speed = np.sqrt(
+                np.square(new_velocity[0]) + np.square(new_velocity[1]))
+            if speed > max_speed:
+                new_velocity = new_velocity / np.sqrt(np.square(new_velocity[0]) +
+                                                      np.square(new_velocity)) * max_speed
+        return new_velocity
+
+    @staticmethod
+    def calculate_position(position, velocity, timestamp):
+        new_position = position + velocity * timestamp
+        return new_position
