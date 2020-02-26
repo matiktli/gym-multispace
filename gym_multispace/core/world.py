@@ -34,7 +34,7 @@ class World():
         # Value in array is another array of forces applied in each dimension of the world
         entities_forces = [
             [0.0 for _ in range(self.state.dim)] for _ in self.objects_all
-            ]
+        ]
 
         # Apply forces coresponding to actions taken by agents
         self.engine.apply_actions_forces(self, entities_forces)

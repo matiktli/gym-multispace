@@ -12,6 +12,7 @@ class PhysicEngine():
             if agent.can_move:
                 # todo2 - noise?
                 entities_forces[i] = agent.action.move_act
+            # print(f'here({i}): {entities_forces} - {agent.action.move_act}')
         return entities_forces
 
     # Apply physical forces of environment and forces between objects
@@ -50,18 +51,23 @@ class PhysicEngine():
             # should be applyed if entity can not move
             if entity.can_move:
                 # Calculate new velocity for entity
+                print(f'Entity forces: {entities_forces}')
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
                                                                 entities_forces[i],
                                                                 entity.state.mass,
                                                                 entity.state.max_speed,
                                                                 world.state.friction,
-                                                                world.timestamp)
+                                                                world.state.timestamp)
                 # Calculate new position for entity
                 entity.state.pos = Equations.calculate_position(entity.state.pos,
                                                                 entity.state.vel,
                                                                 world.timestamp)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+        # If both entities can not be moved just save some time on computations
+        if not (entity_a.can_be_moved or entity_b.can_be_moved):
+            return [force_a, force_b]
+
         distance_between = Equations.distance(entity_a.state.pos,
                                               entity_b.state.pos)
         delta_position = Equations.delta_position(entity_a.state.pos,
@@ -70,19 +76,35 @@ class PhysicEngine():
                                                        entity_b.state.size)
         # If entities are not with each other distances there is not collison
         if distance_between > distance_of_collision:
-            return force_a, force_b
+            return [force_a, force_b]
 
-        # F = m * a    // force = mass * velocity
-        
-        return force_a, force_b
+        i_force = Equations.impact_force(entity_a.state.mass,
+                                         entity_b.state.mass,
+                                         distance_between,
+                                         delta_position)
+        if entity_a.can_be_moved:
+            force_a = force_a + i_force
+        if entity_b.can_be_moved:
+            force_b = force_b - i_force
+        return [force_a, force_b]
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
-        # TODO impl gravitational force
-        return force_a, force_b
+        distance_between = Equations.distance(entity_a.state.pos,
+                                              entity_b.state.pos)
+        g_force = Equations.gravitational_force(entity_a.state.mass,
+                                                entity_b.state.mass,
+                                                distance_between)
+        if entity_a.can_be_moved:
+            force_a = force_a + g_force
+        if entity_b.can_be_moved:
+            force_b = force_b - g_force
+        return [force_a, force_b]
 
 
 # Simple wrapper for equations since I am bad at remembering them
 class Equations:
+
+    GRAVITATIONAL_STATIC = 1
 
     # Delta position betwenn positions in X dim
     @staticmethod
@@ -103,9 +125,12 @@ class Equations:
 
     @staticmethod
     def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
-        new_velocity = velocity * (friction)  # changed from (1-friction)
-        if (force is not None):
+        if velocity == None:
+            velocity = 0.0
+        new_velocity = velocity * friction  # changed from (1-friction)
+        if force is not None:
             # V(new) = V(old) + F/m * t = V(old) + a * t = V(old) + V(delta)
+            print(f'->: {force}')
             new_velocity += (force / mass) * timestamp
         if max_speed is not None:
             # todo2 change to multi dim
@@ -120,3 +145,13 @@ class Equations:
     def calculate_position(position, velocity, timestamp):
         new_position = position + velocity * timestamp
         return new_position
+
+    @staticmethod
+    def gravitational_force(mass_a, mass_b, distance):
+        return (mass_a + mass_b) * Equations.GRAVITATIONAL_STATIC / distance
+
+    # F = m * a    // force = mass * velocity
+    @staticmethod
+    def impact_force(mass_a, mass_b, distance, delta_position):
+        # TODO implement impact force
+        return None

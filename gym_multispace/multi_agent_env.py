@@ -131,6 +131,8 @@ class MultiAgentSpaceEnv(gym.Env):
             agent_move_action_space = spaces.Discrete(
                 world.state.dim * 2 + 1)
         else:
+            raise NotImplementedError(
+                "MVP Includes only discrete env. [Will be implemented later]")
             agent_move_action_space = spaces.Box(low=-agent.move_range,
                                                  high=+agent.move_range,
                                                  shape=(world.state.dim,),
@@ -160,7 +162,7 @@ class MultiAgentSpaceEnv(gym.Env):
 
     # @action_n - is array of actions per agent
 
-    # @action - is action for agent
+    # @action - is action for agent given by model or script
     def __set_action_for_agent(self, action, agent, agent_action_space):
         if agent.can_move:
             self.___set_move_action_for_agent(
@@ -172,20 +174,29 @@ class MultiAgentSpaceEnv(gym.Env):
 
     # @action - is action for agent
     def ___set_move_action_for_agent(self, action, agent, agent_action_space):
-        # TODO set move action
-        if self.is_discrete:
-            agent.action.move_act = np.zeros(self.world.state.dim)
-            print(action)
-            discrete_action = action
-            action = ACTION(discrete_action)
-        else:
-            pass
+        agent.action.move_act = np.zeros(self.world.state.dim)
+        if agent.can_move:
+            if self.is_discrete:
+                # TODO set move action
+                print(action)
+                discrete_action = action
+                action = ACTION(discrete_action)
+                agent.action.move_act = [0.0, 0.0]
+            else:
+                raise NotImplementedError(
+                    "MVP Includes only discrete env. [Will be implemented later]")
 
     # @action - is action for agent
 
     def ___set_grab_action_for_agent(self, action, agent, agent_action_space):
-        # TODO set grab action
         agent.action.grab_act = np.zeros(0)
+        if agent.can_grab:
+            if self.is_discrete:
+                # TODO set grab action
+                agent.action.grab_act = None
+            else:
+                raise NotImplementedError(
+                    "MVP Includes only discrete env. [Will be implemented later]")
 
     """
     PART_3: Observation, reward. Collecting data from callbacks for given policy/scenario

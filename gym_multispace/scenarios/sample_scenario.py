@@ -20,9 +20,11 @@ class Scenario(BaseScenario):
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
+            agent.state.mass = 1
         for i, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{i}'
             special_obj.can_collide = False
+            agent.state.mass = 2
 
         return world
 

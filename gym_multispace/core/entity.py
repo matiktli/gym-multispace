@@ -18,7 +18,7 @@ class Entity(ABC):
         self.can_move = False
 
         # If entity can be moved by other entities
-        self.can_be_moved = False
+        self.can_be_moved = True
 
         # If entity colide with other entities
         self.can_collide = True

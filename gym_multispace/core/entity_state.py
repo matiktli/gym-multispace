@@ -15,7 +15,7 @@ class EntityState(ABC):
         self.mass = mass
 
         # Density
-        self.dens = 4.51 # Titanium
+        self.dens = 4.51  # Titanium
 
         # Velocity
         self.vel = vel
@@ -29,6 +29,7 @@ class AgentState(EntityState):
 
     def __init__(self, pos=None, size=None, mass=None, vel=None, acc=None):
         super().__init__(pos, size, mass, vel, acc)
+        self.max_speed = None
 
 
 # Physical special object state
