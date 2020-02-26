@@ -14,6 +14,9 @@ class EntityState(ABC):
         # Mass
         self.mass = mass
 
+        # Density
+        self.dens = 4.51 # Titanium
+
         # Velocity
         self.vel = vel
 

@@ -68,7 +68,12 @@ class PhysicEngine():
                                                   entity_b.state.pos)
         distance_of_collision = Equations.min_distance(entity_a.state.size,
                                                        entity_b.state.size)
-        # TODO impl collision force
+        # If entities are not with each other distances there is not collison
+        if distance_between > distance_of_collision:
+            return force_a, force_b
+
+        # F = m * a    // force = mass * velocity
+        
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
@@ -98,8 +103,9 @@ class Equations:
 
     @staticmethod
     def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
-        new_velocity = velocity * (1 - friction)
+        new_velocity = velocity * (friction)  # changed from (1-friction)
         if (force is not None):
+            # V(new) = V(old) + F/m * t = V(old) + a * t = V(old) + V(delta)
             new_velocity += (force / mass) * timestamp
         if max_speed is not None:
             # todo2 change to multi dim
