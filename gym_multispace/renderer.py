@@ -27,8 +27,9 @@ class CircleVisualObject(VisualObject):
         self.radius = radius
 
     def render_internal(self, image):
+        pos_int = (int(self.pos[0]), int(self.pos[1]))
         return cv2.circle(image,
-                          self.pos,
+                          pos_int,
                           int(self.radius[0]),
                           self.color, -1)
 
@@ -37,11 +38,13 @@ class CircleVisualObject(VisualObject):
 class Scaler():
 
     def __init__(self, world_real_size: tuple, world_visual_size: tuple):
-        self.vector_r_to_v = (world_visual_size[0] / world_real_size[0],
-                              world_visual_size[1] / world_real_size[1])
+        self.vector_r_to_v = np.zeros(2)
+        self.vector_r_to_v[0] = world_visual_size[0] / world_real_size[0]
+        self.vector_r_to_v[1] = world_visual_size[1] / world_real_size[1]
 
     def scale_object(self, v_object):
         v_object.radius = v_object.radius * self.vector_r_to_v
+        v_object.pos = v_object.pos * self.vector_r_to_v
         return v_object
 
 
@@ -75,7 +78,7 @@ class Renderer():
 
     @staticmethod
     def get_pos_from_array(array_pos):
-        return (int(array_pos[0]), int(array_pos[1]))
+        return tuple(array_pos)
 
     WINDOW_SIZE = (500, 500)
     WINDOW_NAME = 'Game render'

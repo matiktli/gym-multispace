@@ -1,6 +1,7 @@
 import gym_multispace.core.world_engine as engine
 import gym_multispace.core.world_state as state
 import gym_multispace.core.entity as ent
+import numpy as np
 
 
 # Multi agent word representation
@@ -38,7 +39,7 @@ class World():
         # entities_forces = [
         #     [0.0 for _ in range(self.state.dim)] for _ in self.objects_all
         # ]
-        entities_forces = [None] * len(self.objects_all)
+        entities_forces = [np.zeros(self.state.dim) for _ in self.objects_all]
 
         # Apply forces coresponding to actions taken by agents
         self.engine.apply_actions_forces(self, entities_forces)

@@ -18,14 +18,12 @@ class Scenario(BaseScenario):
             SpecialObject(), SpecialObject(), SpecialObject(), SpecialObject(), SpecialObject()]
 
         for i, agent in enumerate(world.agents):
-            agent.can_collide = False
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
             agent.state.mass = 1
         for i, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{i}'
-            special_obj.can_collide = False
             agent.state.mass = 2
 
         return world

@@ -19,9 +19,6 @@ class EntityState(ABC):
         # Velocity [m/s^2]
         self.vel = vel
 
-        # Acceleration DEPRACATED (?)
-        self.acc = acc
-
 
 # Physical agent state
 class AgentState(EntityState):
@@ -34,5 +31,5 @@ class AgentState(EntityState):
 # Physical special object state
 class SpecialObjectState(EntityState):
 
-    def __init__(self, pos=(-1, -1), size=2, mass=2, vel=np.zeros(WorldState.WORLD_DIM_2D), acc=0):
+    def __init__(self, pos=(-1, -1), size=1, mass=2, vel=np.zeros(WorldState.WORLD_DIM_2D), acc=0):
         super().__init__(pos, size, mass, vel, acc)

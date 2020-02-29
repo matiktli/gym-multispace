@@ -20,18 +20,16 @@ class PhysicEngine():
         # Each object interact with all other entities in the world besides of itself
         for i_a, entity_a in enumerate(world.objects_all):
             for i_b, entity_b in enumerate(world.objects_all):
-                if entity_a is entity_b:
+                if entity_a.uuid == entity_b.uuid:
                     # Entity can not interact with itself
                     continue
-                if not entity_a.can_collide or not entity_b.can_collide:
-                    # Only collidable entities can interact
-                    continue
-                force_a = [0.0 for _ in range(world.state.dim)]
-                force_b = [0.0 for _ in range(world.state.dim)]
-                force_a, force_b = self.__apply_impact_force_between_entities(entity_a,
-                                                                              entity_b,
-                                                                              force_a,
-                                                                              force_b)
+                force_a = np.zeros(world.state.dim)
+                force_b = np.zeros(world.state.dim)
+                if entity_a.can_collide or entity_b.can_collide:
+                    force_a, force_b = self.__apply_impact_force_between_entities(entity_a,
+                                                                                  entity_b,
+                                                                                  force_a,
+                                                                                  force_b)
 
                 force_a, force_b = self.__apply_gravitational_force_between_entities(entity_a,
                                                                                      entity_b,
@@ -63,7 +61,7 @@ class PhysicEngine():
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
         # If both entities can not be moved just save some time on computations
-        if not (entity_a.can_be_moved or entity_b.can_be_moved):
+        if not (entity_a.can_be_moved and entity_b.can_be_moved):
             return [force_a, force_b]
 
         distance_between = Equations.distance(entity_a.state.pos,
@@ -76,7 +74,6 @@ class PhysicEngine():
         if distance_between > distance_of_collision:
             return [force_a, force_b]
 
-        input(f'Two entities collided')
         i_force = Equations.impact_force(entity_a.state.mass,
                                          entity_b.state.mass,
                                          distance_between,
@@ -108,7 +105,7 @@ class Equations:
     # Delta position betwenn positions in X dim
     @staticmethod
     def delta_position(pos_a, pos_b):
-        return pos_a - pos_b
+        return (pos_a[0] - pos_b[0], pos_a[1] - pos_b[1])
 
     # Distance between two positions in X dim
     @staticmethod
@@ -140,7 +137,7 @@ class Equations:
     @staticmethod
     def calculate_position(position, velocity, timestamp):
         new_position = position + velocity * timestamp
-        return new_position
+        return np.nan_to_num(new_position)
 
     @staticmethod
     def gravitational_force(mass_a, mass_b, distance):
@@ -150,4 +147,4 @@ class Equations:
     @staticmethod
     def impact_force(mass_a, mass_b, distance, delta_position):
         # TODO[medium] implement impact force
-        return None
+        return [0.0, 0.0]
