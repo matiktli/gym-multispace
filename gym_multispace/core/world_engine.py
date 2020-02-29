@@ -13,6 +13,7 @@ class PhysicEngine():
                 # todo2 - noise?
                 print(f'Applying move_act: {agent.action.move_act}')
                 entities_forces[i] = agent.action.move_act
+
         return entities_forces
 
     # Apply physical forces of environment and forces between objects
@@ -46,6 +47,7 @@ class PhysicEngine():
         for i, entity in enumerate(world.objects_all):
             # This check is unnecessary, at this point not forces
             # should be applyed if entity can not move
+            print(f' Entity: {entity.uuid} ->  {entities_forces[i]}')
             if entity.can_move:
                 # Calculate new velocity for entity
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
@@ -85,15 +87,20 @@ class PhysicEngine():
         return [force_a, force_b]
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+        # TODO[tmp] this one breaks first entity movement ;/
+        return [force_a, force_b]
         distance_between = Equations.distance(entity_a.state.pos,
                                               entity_b.state.pos)
         g_force = Equations.gravitational_force(entity_a.state.mass,
                                                 entity_b.state.mass,
                                                 distance_between)
         if entity_a.can_be_moved:
+            print('ff1: ', force_a)
             force_a = force_a + g_force
+            print('ff2: ', force_a)
         if entity_b.can_be_moved:
             force_b = force_b - g_force
+        print(f'Gravitational_forcce: {[force_a, force_b]}')
         return [force_a, force_b]
 
 
@@ -125,6 +132,8 @@ class Equations:
         if force is not None:
             # V(new) = V(old) + F/m * t = V(old) + a * t = V(old) + V(delta)
             new_velocity += (force / mass) * timestamp
+            print(f'Force: {force}, mass: {mass}, vel: {new_velocity}')
+
         if max_speed is not None:
             # todo2 change to multi dim
             speed = np.sqrt(
@@ -135,8 +144,17 @@ class Equations:
         return new_velocity
 
     @staticmethod
-    def calculate_position(position, velocity, timestamp):
+    def calculate_position(position, velocity, timestamp, world_size=None):
         new_position = position + velocity * timestamp
+        if world_size:
+            if new_position[0] > world_size[0]:
+                new_position[0] = world_size[0]
+            if new_position[0] < 0:
+                new_position[0] = 0
+            if new_position[1] > world_size[1]:
+                new_position[1] = world_size[1]
+            if new_position[1] < 0:
+                new_position[1] = 0
         return np.nan_to_num(new_position)
 
     @staticmethod

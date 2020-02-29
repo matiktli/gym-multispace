@@ -7,7 +7,7 @@ env = create_env(scenario_path)
 initial_observation = env.reset()
 
 print("STARTING GAME")
-for i in range(100):
+for i in range(500):
     move_act_space = env.action_space[0]
     all_actions = []
     for agent in env.world.objects_agents_ai:

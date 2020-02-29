@@ -8,9 +8,6 @@ class WorldState():
     WORLD_SIZE_2D_MEDIUM = (50, 50)
     WORLD_SIZE_2D_BIG = (100, 100)
 
-    WORLD_DIM_3D = 3
-    WORLD_SIZE_3D_SMALL = (20, 20, 20)
-
     def __init__(self):
 
         self.dim = WorldState.WORLD_DIM_2D
@@ -24,4 +21,4 @@ class WorldState():
         self.friction = 0.10
 
         # Entities contact margin
-        self.contact_margin = 0
+        self.contact_margin = 1

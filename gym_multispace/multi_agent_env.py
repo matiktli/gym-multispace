@@ -137,12 +137,13 @@ class MultiAgentSpaceEnv(gym.Env):
             agent_move_action_space = spaces.Discrete(
                 world.state.dim * 2 + 1)
         else:
-            raise NotImplementedError(
-                "MVP Includes only discrete env. [Will be implemented later]")
             agent_move_action_space = spaces.Box(low=-agent.move_range,
                                                  high=+agent.move_range,
                                                  shape=(world.state.dim,),
                                                  dtype=np.float32)
+            raise NotImplementedError(
+                "MVP Includes only discrete env. [Will be implemented later]")
+
         return agent_move_action_space
 
     # Define GRAB action space for agent
