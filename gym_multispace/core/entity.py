@@ -26,14 +26,13 @@ class Entity(ABC):
         # If entity can be destroyed by other entities or world event
         self.can_be_destroyed = False
 
-        self.color = 'blue'
-
 
 # Agent is occuping quadrant's space, sharing its state
 class Agent(Entity):
 
     def __init__(self, uuid=None, agent_type=None, agent_team=None, view_range=None, action_callback=None):
         super().__init__()
+        self.color = 'blue'
         self.uuid = uuid
         self.can_move = True
         self.can_grab = True
@@ -52,6 +51,7 @@ class SpecialObject(Entity):
 
     def __init__(self, uuid=None, object_type=None):
         super().__init__()
+        self.color = 'gray'
         self.uuid = uuid
         self.state = states.SpecialObjectState()
         self.type = object_type

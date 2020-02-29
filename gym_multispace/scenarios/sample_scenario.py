@@ -10,10 +10,12 @@ class Scenario(BaseScenario):
     def generate_world(self):
         print('GENERATING WORLD')
         world = World()
+        world.state.size = (10, 10)
         world.is_reward_shared = False
         world.is_discrete = True
-        world.agents = [Agent()]
-        world.special_objects = [SpecialObject()]
+        world.agents = [Agent(), Agent(), Agent()]
+        world.special_objects = [
+            SpecialObject(), SpecialObject(), SpecialObject(), SpecialObject(), SpecialObject()]
 
         for i, agent in enumerate(world.agents):
             agent.can_collide = False
@@ -30,11 +32,12 @@ class Scenario(BaseScenario):
 
     def reset_world(self, world):
         print('RESETING WORLD')
+        center_p = tuple([x / 2 for x in world.state.size])
         for i, agent in enumerate(world.agents):
-            agent.state.pos = (1, 1)
+            agent.state.pos = (center_p[0] + i, center_p[1] - i)
 
         for i, special_obj in enumerate(world.special_objects):
-            special_obj.state.pos = (2, 2)
+            special_obj.state.pos = (center_p[0] - i, center_p[1] + i)
 
     def get_reward(self, agent, world):
         print('REWARDING AGENT')

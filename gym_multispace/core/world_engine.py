@@ -76,6 +76,7 @@ class PhysicEngine():
         if distance_between > distance_of_collision:
             return [force_a, force_b]
 
+        input(f'Two entities collided')
         i_force = Equations.impact_force(entity_a.state.mass,
                                          entity_b.state.mass,
                                          distance_between,

@@ -4,7 +4,7 @@ from gym.utils import seeding
 import numpy as np
 
 from gym_multispace.core.world import World
-from gym_multispace.renderer import Renderer
+from gym_multispace.renderer import Renderer, CircleVisualObject
 from gym_multispace.core.action import ACTION
 
 
@@ -43,6 +43,7 @@ class MultiAgentSpaceEnv(gym.Env):
         self.agents = self.world.objects_agents_ai
 
         # set agents actions
+        print(action_n)
         for i, agent in enumerate(self.agents):
             self.__set_action_for_agent(
                 action_n[i], agent, self.action_space[i])
@@ -78,6 +79,11 @@ class MultiAgentSpaceEnv(gym.Env):
         return observation_n
 
     def render(self, mode='human'):
+        for entity in self.world.objects_all:
+            v_obj = CircleVisualObject(
+                entity.state.pos, entity.color, entity.state.size)
+            v_obj.tag = entity.uuid
+            self.renderer.add_object_to_frame(v_obj)
         if mode == 'human':
             self.renderer.render(return_rgb_array=False)
         else:
