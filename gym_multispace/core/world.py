@@ -17,24 +17,28 @@ class World():
     # Update state of the world
     def step(self):
         # Get actions from callback for scripted (computer) agents
-        self.__set_scripted_agents_actions_from_callback(
-            self.objects_agents_script)
+        self.__set_agents_actions_from_callback(
+            self.objects_agents_all)
 
         # Perform all PHYSICAL actions in envrionemnt
         self.__proccess_physic_state()
 
-    def __set_scripted_agents_actions_from_callback(self, agents):
+    def __set_agents_actions_from_callback(self, agents):
         for agent in agents:
-            # Pass agent and world to agent action callback func
-            agent.action = agent.action_callback(agent, self)
+            if agent.action_callback:
+                # Pass agent and world to agent action callback func
+                agent.action = agent.action_callback(agent, self)
+            else:
+                print(f'Agent: {agent.uuid} do not have callback function!')
         return agents
 
     def __proccess_physic_state(self):
         # Gather actions on all entities into array.
         # Value in array is another array of forces applied in each dimension of the world
-        entities_forces = [
-            [0.0 for _ in range(self.state.dim)] for _ in self.objects_all
-        ]
+        # entities_forces = [
+        #     [0.0 for _ in range(self.state.dim)] for _ in self.objects_all
+        # ]
+        entities_forces = [None] * len(self.objects_all)
 
         # Apply forces coresponding to actions taken by agents
         self.engine.apply_actions_forces(self, entities_forces)

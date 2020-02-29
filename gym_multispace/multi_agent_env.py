@@ -181,7 +181,7 @@ class MultiAgentSpaceEnv(gym.Env):
                 print(action)
                 discrete_action = action
                 action = ACTION(discrete_action)
-                agent.action.move_act = [0.0, 0.0]
+                agent.action.move_act = 0.0  # changed from [0.0, 0.0]
             else:
                 raise NotImplementedError(
                     "MVP Includes only discrete env. [Will be implemented later]")

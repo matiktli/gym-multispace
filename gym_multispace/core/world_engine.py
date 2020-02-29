@@ -12,7 +12,6 @@ class PhysicEngine():
             if agent.can_move:
                 # todo2 - noise?
                 entities_forces[i] = agent.action.move_act
-            # print(f'here({i}): {entities_forces} - {agent.action.move_act}')
         return entities_forces
 
     # Apply physical forces of environment and forces between objects
@@ -28,7 +27,6 @@ class PhysicEngine():
                     continue
                 force_a = [0.0 for _ in range(world.state.dim)]
                 force_b = [0.0 for _ in range(world.state.dim)]
-
                 force_a, force_b = self.__apply_impact_force_between_entities(entity_a,
                                                                               entity_b,
                                                                               force_a,
@@ -51,7 +49,6 @@ class PhysicEngine():
             # should be applyed if entity can not move
             if entity.can_move:
                 # Calculate new velocity for entity
-                print(f'Entity forces: {entities_forces}')
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
                                                                 entities_forces[i],
                                                                 entity.state.mass,
@@ -61,7 +58,7 @@ class PhysicEngine():
                 # Calculate new position for entity
                 entity.state.pos = Equations.calculate_position(entity.state.pos,
                                                                 entity.state.vel,
-                                                                world.timestamp)
+                                                                world.state.timestamp)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
         # If both entities can not be moved just save some time on computations
@@ -125,12 +122,9 @@ class Equations:
 
     @staticmethod
     def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
-        if velocity == None:
-            velocity = 0.0
         new_velocity = velocity * friction  # changed from (1-friction)
         if force is not None:
             # V(new) = V(old) + F/m * t = V(old) + a * t = V(old) + V(delta)
-            print(f'->: {force}')
             new_velocity += (force / mass) * timestamp
         if max_speed is not None:
             # todo2 change to multi dim
@@ -138,12 +132,13 @@ class Equations:
                 np.square(new_velocity[0]) + np.square(new_velocity[1]))
             if speed > max_speed:
                 new_velocity = new_velocity / np.sqrt(np.square(new_velocity[0]) +
-                                                      np.square(new_velocity)) * max_speed
+                                                      np.square(new_velocity[1])) * max_speed
         return new_velocity
 
     @staticmethod
     def calculate_position(position, velocity, timestamp):
-        new_position = position + velocity * timestamp
+        new_position = position * timestamp
+        print(f'Initial: {position}, new: {new_position}')
         return new_position
 
     @staticmethod
