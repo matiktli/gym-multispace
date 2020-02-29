@@ -26,6 +26,8 @@ class Entity(ABC):
         # If entity can be destroyed by other entities or world event
         self.can_be_destroyed = False
 
+        self.color = 'blue'
+
 
 # Agent is occuping quadrant's space, sharing its state
 class Agent(Entity):

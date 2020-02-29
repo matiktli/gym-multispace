@@ -35,7 +35,7 @@ class MultiAgentSpaceEnv(gym.Env):
         self.__init_action_spaces(self.world, self.agents, self.is_discrete)
 
         self.time = 0
-        self.renderer = Renderer()
+        self.renderer = Renderer(self.world.state.size)
 
     # Action from agent > step in world > observation & reward
     def step(self, action_n):
@@ -78,7 +78,6 @@ class MultiAgentSpaceEnv(gym.Env):
         return observation_n
 
     def render(self, mode='human'):
-        # TODO[hard] take care of rendering objects
         if mode == 'human':
             self.renderer.render(return_rgb_array=False)
         else:

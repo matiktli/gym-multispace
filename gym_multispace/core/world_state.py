@@ -6,7 +6,7 @@ class WorldState():
     WORLD_DIM_2D = 2
     WORLD_SIZE_2D_SMALL = (20, 20)
     WORLD_SIZE_2D_MEDIUM = (50, 50)
-    WORLD_SIZE_2D_MEDIUM = (100, 100)
+    WORLD_SIZE_2D_BIG = (100, 100)
 
     WORLD_DIM_3D = 3
     WORLD_SIZE_3D_SMALL = (20, 20, 20)
