@@ -33,6 +33,7 @@ class MultiAgentSpaceEnv(gym.Env):
 
         # Configure GymAi action spaces for agents
         self.__init_action_spaces(self.world, self.agents, self.is_discrete)
+
         self.time = 0
         self.renderer = Renderer()
 
@@ -77,7 +78,7 @@ class MultiAgentSpaceEnv(gym.Env):
         return observation_n
 
     def render(self, mode='human'):
-        # TODO take care of rendering objects
+        # TODO[hard] take care of rendering objects
         if mode == 'human':
             self.renderer.render(return_rgb_array=False)
         else:
@@ -177,11 +178,8 @@ class MultiAgentSpaceEnv(gym.Env):
         agent.action.move_act = np.zeros(self.world.state.dim)
         if agent.can_move:
             if self.is_discrete:
-                # TODO set move action
-                print(action)
-                discrete_action = action
-                action = ACTION(discrete_action)
-                agent.action.move_act = 0.0  # changed from [0.0, 0.0]
+                action = ACTION.get_by_id(action)
+                agent.action.move_act += action.value['vector_2d']
             else:
                 raise NotImplementedError(
                     "MVP Includes only discrete env. [Will be implemented later]")

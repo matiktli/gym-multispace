@@ -11,6 +11,7 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
+                print(f'Applying move_act: {agent.action.move_act}')
                 entities_forces[i] = agent.action.move_act
         return entities_forces
 
@@ -101,7 +102,7 @@ class PhysicEngine():
 # Simple wrapper for equations since I am bad at remembering them
 class Equations:
 
-    GRAVITATIONAL_STATIC = 1
+    GRAVITATIONAL_STATIC = 1  # TODO[easy] G static variable
 
     # Delta position betwenn positions in X dim
     @staticmethod
@@ -137,8 +138,7 @@ class Equations:
 
     @staticmethod
     def calculate_position(position, velocity, timestamp):
-        new_position = position * timestamp
-        print(f'Initial: {position}, new: {new_position}')
+        new_position = position + velocity * timestamp
         return new_position
 
     @staticmethod
@@ -148,5 +148,5 @@ class Equations:
     # F = m * a    // force = mass * velocity
     @staticmethod
     def impact_force(mass_a, mass_b, distance, delta_position):
-        # TODO implement impact force
+        # TODO[medium] implement impact force
         return None

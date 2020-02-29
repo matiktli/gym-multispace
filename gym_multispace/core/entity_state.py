@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
+import numpy as np
+from gym_multispace.core.world_state import WorldState
 
 
 # Entity object state (we store here values that in game might change mostly)
 class EntityState(ABC):
 
-    def __init__(self, pos=(-1, -1), size=1, mass=1, vel=0, acc=1):
+    def __init__(self, pos=(-1, -1), size=1, mass=1, vel=np.zeros(WorldState.WORLD_DIM_2D), acc=1):
         # Position
         self.pos = pos
 
@@ -24,7 +26,7 @@ class EntityState(ABC):
 # Physical agent state
 class AgentState(EntityState):
 
-    def __init__(self, pos=(-1, -1), size=1, mass=1, vel=0, acc=1):
+    def __init__(self, pos=(-1, -1), size=1, mass=1, vel=np.zeros(WorldState.WORLD_DIM_2D), acc=1):
         super().__init__(pos, size, mass, vel, acc)
         self.max_speed = None
 
@@ -32,5 +34,5 @@ class AgentState(EntityState):
 # Physical special object state
 class SpecialObjectState(EntityState):
 
-    def __init__(self, pos=(-1, -1), size=1, mass=2, vel=0, acc=0):
+    def __init__(self, pos=(-1, -1), size=1, mass=2, vel=np.zeros(WorldState.WORLD_DIM_2D), acc=0):
         super().__init__(pos, size, mass, vel, acc)
