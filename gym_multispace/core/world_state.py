@@ -15,7 +15,7 @@ class WorldState():
         self.size = WorldState.WORLD_SIZE_2D_MEDIUM
 
         # Time in between of simulation events in seconds
-        self.timestamp = 1
+        self.timestamp = 0.2
 
         # Environment friction
         self.friction = 0.10

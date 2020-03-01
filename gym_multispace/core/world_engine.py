@@ -38,8 +38,8 @@ class PhysicEngine():
                                                                                      force_b)
 
                 # Apply all interaction forces between entityes to them
-                entities_forces[i_a] = force_a + entities_forces[i_a]
-                entities_forces[i_b] = force_b + entities_forces[i_b]
+                # entities_forces[i_a] = entities_forces[i_a] + force_a
+                entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
 
     # Calculate new state of entities/world after all forces applied
@@ -86,18 +86,18 @@ class PhysicEngine():
                                          entity_a.state.vel,
                                          entity_b.state.vel)
         print(
-            f'1_[{entity_a.uuid} -> {entity_b.uuid}] i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
+            f'1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
         if entity_a.can_be_moved:
             force_a = force_a + i_force
         if entity_b.can_be_moved:
             force_b = force_b - i_force
-        input(
-            f'2_[{entity_a.uuid} -> {entity_b.uuid}] i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
+        # input(
+        #     f'2_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
         # TODO[tmp] this one breaks first entity movement ;/
-        return force_a, force_b
+        # return force_a, force_b
         # Safety check on input:
         force_a, force_b = np.nan_to_num(force_a), np.nan_to_num(force_b)
         distance_between = Equations.distance(entity_a.state.pos,
@@ -105,12 +105,16 @@ class PhysicEngine():
         g_force = Equations.gravitational_force(entity_a.state.mass,
                                                 entity_b.state.mass,
                                                 distance_between)
-        print(f'g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
+
+        print(
+            f'1_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
         if entity_a.can_be_moved:
             force_a = force_a + g_force
         if entity_b.can_be_moved:
             force_b = force_b - g_force
-        print(f'g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
+
+        print(
+            f'2_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
         return force_a, force_b
 
 
