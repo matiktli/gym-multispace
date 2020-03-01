@@ -39,8 +39,6 @@ class MultiAgentSpaceEnv(gym.Env):
 
     # Action from agent > step in world > observation & reward
     def step(self, action_n):
-        if not isinstance(action_n, list):
-            action_n = [action_n, action_n]
         observation_n, reward_n, done_n, info_n = [], [], [], []
         self.agents = self.world.objects_agents_ai
 
@@ -250,9 +248,12 @@ class MultiAgentSpaceEnv(gym.Env):
 """
 Single agent wrapper for multi agent env
 """
+
+
 class SingleAgentSpaceEnv(MultiAgentSpaceEnv):
 
     def step(self, action_n):
+        action_n = action_n[0]
         obs_n, rew_n, done_n, info_n = super().step(action_n)
         return obs_n[0], rew_n[0], done_n[0], info_n[0]
 
