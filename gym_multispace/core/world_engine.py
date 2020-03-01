@@ -97,7 +97,7 @@ class PhysicEngine():
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
-        # return force_a, force_b
+        return force_a, force_b
         # Safety check on input:
         force_a, force_b = np.nan_to_num(force_a), np.nan_to_num(force_b)
         distance_between = Equations.distance(entity_a.state.pos,
@@ -169,6 +169,7 @@ class Equations:
                 new_position[1] = world_size[1]
             if new_position[1] < 0:
                 new_position[1] = 0
+        print(f'new pos: {new_position}')
         return np.nan_to_num(new_position)
 
     @staticmethod

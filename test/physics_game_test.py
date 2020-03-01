@@ -16,6 +16,7 @@ for i in range(300):
     else:
         all_actions.append(4)
 
+    # 2nd agent move just down
     all_actions.append(1)
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)

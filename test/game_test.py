@@ -13,4 +13,12 @@ for i in range(300):
     for agent in env.world.objects_agents_ai:
         all_actions.append(move_act_space.sample())
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
+    print(f""" 
+    -----------------------------
+    Step: {i}
+    Agents actions: {all_actions}
+    Agents rewards: {rew_n}
+    Agent Observations: {obs_n}
+    -----------------------------
+    """)
     env.render(mode='human')

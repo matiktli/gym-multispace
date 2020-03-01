@@ -114,6 +114,8 @@ class Renderer():
             else:
                 raise NotImplementedError(
                     'Only Circle object rendering is supported for now')
+        # Flip image sicne cv2 has different x-axis
+        self.image = cv2.flip(self.image, 0)
         # Return image or display depend on mode
         if return_rgb_array:
             return self.image
