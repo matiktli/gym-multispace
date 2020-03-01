@@ -39,7 +39,7 @@ class PhysicEngine():
 
                 # Apply all interaction forces between entityes to them
                 # TODO[hard] fix how forces are applied to entities
-                # entities_forces[i_a] = entities_forces[i_a] + force_a
+                entities_forces[i_a] = entities_forces[i_a] + force_a
                 entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
 
@@ -64,6 +64,7 @@ class PhysicEngine():
                                                                 world.state.size)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+        # return force_a, force_b
         # Safety check on input:
         force_a = np.nan_to_num(force_a)
         force_b = np.nan_to_num(force_b)
@@ -108,7 +109,7 @@ class PhysicEngine():
 
         print(
             f'1_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
-        if entity_a.can_be_moved:
+        if entity_a.can_be_moved and False:
             force_a = force_a + g_force
         if entity_b.can_be_moved:
             force_b = force_b - g_force

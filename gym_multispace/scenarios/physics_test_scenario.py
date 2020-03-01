@@ -24,7 +24,7 @@ class Scenario(BaseScenario):
             agent.state.size = 1 + i * 2
         for j, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{j}'
-            special_obj.state.mass = 2
+            special_obj.state.mass = 10000000
             special_obj.state.size = 10
 
         return world
@@ -34,7 +34,7 @@ class Scenario(BaseScenario):
         center_p = tuple([x / 2 for x in world.state.size])
 
         world.agents[0].state.pos = (1, 1)
-        world.agents[1].state.pos = (center_p[0] - 10, 1)
+        world.agents[1].state.pos = (center_p[0], 1)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)
