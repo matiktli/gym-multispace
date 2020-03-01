@@ -48,7 +48,7 @@ class PhysicEngine():
         for i, entity in enumerate(world.objects_all):
             # This check is unnecessary, at this point not forces
             # should be applyed if entity can not move
-            print(f' Entity: {entity.uuid} ->  {entities_forces[i]}')
+            print(f' Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}')
             if entity.can_move:
                 # Calculate new velocity for entity
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,

@@ -63,10 +63,22 @@ class Scenario(BaseScenario):
             world.state.size[0] - 2, random.randrange(0, world.state.size[1]))
 
     def get_reward(self, agent, world):
-        # TODO[medium] implement sample reward for scenario
-        return 1.0
+        if agent.uuid == 'a_0_attacker':
+            # Attacker reward is based on distance to the target entity (negative reward)
+            distance_to_goal = np.sqrt(
+                np.sum(np.square(agent.state.pos - world.special_objects[0].state.pos)))
+            return -distance_to_goal
+        elif agent.uuid == 'a_1_defender':
+            attacker_agent = list(filter(
+                lambda ag: ag.uuid == 'a_0_attacker', world.agents))[0]
+            distance_of_attacker_to_goal = np.sqrt(
+                np.sum(np.square(attacker_agent.state.pos - world.special_objects[0].state.pos)))
+            # Defender reward is based on how far is the enemy from entity
+            return distance_of_attacker_to_goal
+        else:
+            raise Exception('Wrong agent definition')
 
     def get_observation(self, agent, world):
-        # Simple observation of agent position
-        # TODO[medium] build observation for agent
-        return np.zeros(0)
+        # Simple observation of all agents position
+        obs = [ag.state.pos for ag in world.objects_all]
+        return obs
