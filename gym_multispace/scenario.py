@@ -33,7 +33,12 @@ class BaseScenario(ABC):
 
 
 # Utility function to load scenarios from python file
-def load_scenario_from_file(file_path):
-    pathname = os.path.join(os.path.dirname(__file__), file_path)
-    obj = imp.load_source('', pathname)
+def load_scenario_from_file(file_path, is_absolute):
+    obj = None
+    if is_absolute:
+        # load file from wherever
+        obj = imp.load_source('', file_path)
+    else:
+        pathname = os.path.join(os.path.dirname(__file__), file_path)
+        obj = imp.load_source('', pathname)
     return obj
