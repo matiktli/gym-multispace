@@ -38,8 +38,10 @@ class Scenario(BaseScenario):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)
 
     def get_reward(self, agent, world):
+        # TODO[medium] implement sample reward for scenario
         return 1.0
 
     def get_observation(self, agent, world):
         # Simple observation of agent position
+        # TODO[medium] build observation for agent
         return np.zeros(0)

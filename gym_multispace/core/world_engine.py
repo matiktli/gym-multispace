@@ -38,6 +38,7 @@ class PhysicEngine():
                                                                                      force_b)
 
                 # Apply all interaction forces between entityes to them
+                # TODO[hard] fix how forces are applied to entities
                 # entities_forces[i_a] = entities_forces[i_a] + force_a
                 entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
@@ -96,7 +97,6 @@ class PhysicEngine():
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
-        # TODO[tmp] this one breaks first entity movement ;/
         # return force_a, force_b
         # Safety check on input:
         force_a, force_b = np.nan_to_num(force_a), np.nan_to_num(force_b)
@@ -180,7 +180,6 @@ class Equations:
     # F = m * a    // force = mass * velocity
     @staticmethod
     def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b):
-        # TODO[medium] implement impact force
         # F = 1/2 * m * v^2 / d
         impact_force = 0.5 * (mass_a + mass_b) * \
             np.power(velocity_a + velocity_b, 2) / distance

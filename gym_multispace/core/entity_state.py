@@ -25,7 +25,7 @@ class AgentState(EntityState):
 
     def __init__(self, pos=(-1, -1), size=1, mass=1, vel=np.zeros(WorldState.WORLD_DIM_2D)):
         super().__init__(pos, size, mass, vel)
-        self.max_speed = None
+        self.max_speed = 3
 
 
 # Physical special object state
