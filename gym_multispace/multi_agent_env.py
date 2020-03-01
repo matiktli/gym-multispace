@@ -39,7 +39,9 @@ class MultiAgentSpaceEnv(gym.Env):
 
     # Action from agent > step in world > observation & reward
     def step(self, action_n):
-        observation_n, reward_n, done_n, info_n = [], [], [], {'n': []}
+        if not isinstance(action_n, list):
+            action_n = [action_n, action_n]
+        observation_n, reward_n, done_n, info_n = [], [], [], []
         self.agents = self.world.objects_agents_ai
 
         # set agents actions
@@ -63,6 +65,13 @@ class MultiAgentSpaceEnv(gym.Env):
         reward = np.sum(reward_n)
         if self.is_reward_shared:
             reward_n = [reward] * self.n
+        print(f"""
+        --------------------------------
+            Observation: {observation_n},
+            Reward: {reward_n},
+            Info: {info_n}
+        --------------------------------
+        """)
         return observation_n, reward_n, done_n, info_n
 
     # Reset world, returning init observations for agents
@@ -211,7 +220,7 @@ class MultiAgentSpaceEnv(gym.Env):
                 self.____get_observation_from_callback(agent, world))
             reward_n.append(self.____get_reward_from_callback(agent, world))
             done_n.append(self.____get_done_from_callback(agent, world))
-            info_n['n'].append(self.____get_info_from_callback(agent, world))
+            info_n.append(self.____get_info_from_callback(agent, world))
 
     # get info for an agent
     def ____get_info_from_callback(self, agent, world):
@@ -236,3 +245,17 @@ class MultiAgentSpaceEnv(gym.Env):
         if self.reward_callback is None:
             return 0.0
         return self.reward_callback(agent, world)
+
+
+"""
+Single agent wrapper for multi agent env
+"""
+class SingleAgentSpaceEnv(MultiAgentSpaceEnv):
+
+    def step(self, action_n):
+        obs_n, rew_n, done_n, info_n = super().step(action_n)
+        return obs_n[0], rew_n[0], done_n[0], info_n[0]
+
+    def reset(self):
+        obs_n = super().reset()
+        return obs_n[0]
