@@ -32,7 +32,7 @@ class Scenario(BaseScenario):
         print('RESETING WORLD')
         center_p = tuple([x / 2 for x in world.state.size])
         for i, agent in enumerate(world.agents):
-            agent.state.pos = (center_p[0] + i, center_p[1] - i)
+            agent.state.pos = (center_p[0]/2 + i, center_p[1]/2 - i)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)

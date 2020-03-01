@@ -59,12 +59,16 @@ class PhysicEngine():
                 # Calculate new position for entity
                 entity.state.pos = Equations.calculate_position(entity.state.pos,
                                                                 entity.state.vel,
-                                                                world.state.timestamp)
+                                                                world.state.timestamp,
+                                                                world.state.size)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+        # Safety check on input:
+        force_a = np.nan_to_num(force_a)
+        force_b = np.nan_to_num(force_b)
         # If both entities can not be moved just save some time on computations
         if not (entity_a.can_be_moved and entity_b.can_be_moved):
-            return [force_a, force_b]
+            return force_a, force_b
 
         distance_between = Equations.distance(entity_a.state.pos,
                                               entity_b.state.pos)
@@ -74,40 +78,46 @@ class PhysicEngine():
                                                        entity_b.state.size)
         # If entities are not with each other distances there is not collison
         if distance_between > distance_of_collision:
-            return [force_a, force_b]
+            return force_a, force_b
 
         i_force = Equations.impact_force(entity_a.state.mass,
                                          entity_b.state.mass,
                                          distance_between,
-                                         delta_position)
+                                         entity_a.state.vel,
+                                         entity_b.state.vel)
+        print(
+            f'1_[{entity_a.uuid} -> {entity_b.uuid}] i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
         if entity_a.can_be_moved:
             force_a = force_a + i_force
         if entity_b.can_be_moved:
             force_b = force_b - i_force
-        return [force_a, force_b]
+        input(
+            f'2_[{entity_a.uuid} -> {entity_b.uuid}] i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
+        return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
         # TODO[tmp] this one breaks first entity movement ;/
-        return [force_a, force_b]
+        return force_a, force_b
+        # Safety check on input:
+        force_a, force_b = np.nan_to_num(force_a), np.nan_to_num(force_b)
         distance_between = Equations.distance(entity_a.state.pos,
                                               entity_b.state.pos)
         g_force = Equations.gravitational_force(entity_a.state.mass,
                                                 entity_b.state.mass,
                                                 distance_between)
+        print(f'g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
         if entity_a.can_be_moved:
-            print('ff1: ', force_a)
             force_a = force_a + g_force
-            print('ff2: ', force_a)
         if entity_b.can_be_moved:
             force_b = force_b - g_force
-        print(f'Gravitational_forcce: {[force_a, force_b]}')
-        return [force_a, force_b]
+        print(f'g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
+        return force_a, force_b
 
 
 # Simple wrapper for equations since I am bad at remembering them
 class Equations:
 
-    GRAVITATIONAL_STATIC = 1  # TODO[easy] G static variable
+    GRAVITATIONAL_STATIC = 6.673 * (10 ^ -11)  # todo2 change notation
 
     # Delta position betwenn positions in X dim
     @staticmethod
@@ -159,10 +169,15 @@ class Equations:
 
     @staticmethod
     def gravitational_force(mass_a, mass_b, distance):
-        return (mass_a + mass_b) * Equations.GRAVITATIONAL_STATIC / distance
+        gravitational_force = (mass_a + mass_b) * \
+            Equations.GRAVITATIONAL_STATIC / distance
+        return np.nan_to_num(gravitational_force)
 
     # F = m * a    // force = mass * velocity
     @staticmethod
-    def impact_force(mass_a, mass_b, distance, delta_position):
+    def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b):
         # TODO[medium] implement impact force
-        return [0.0, 0.0]
+        # F = 1/2 * m * v^2 / d
+        impact_force = 0.5 * (mass_a + mass_b) * \
+            np.power(velocity_a + velocity_b, 2) / distance
+        return np.nan_to_num(impact_force)

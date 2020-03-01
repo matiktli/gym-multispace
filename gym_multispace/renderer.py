@@ -101,7 +101,16 @@ class Renderer():
     def render(self, return_rgb_array=False):
         for v_obj in self.objects_to_render:
             if isinstance(v_obj, CircleVisualObject):
-                self.image = v_obj.render(self.image)
+                # Trick to add oppacity images in cv2
+                overlay = self.image.copy()
+                overlay = v_obj.render(overlay)
+                oppacity = 0.6
+                self.image = cv2.addWeighted(overlay,
+                                             oppacity,
+                                             self.image,
+                                             1 - oppacity,
+                                             0)
+
             else:
                 raise NotImplementedError(
                     'Only Circle object rendering is supported for now')
