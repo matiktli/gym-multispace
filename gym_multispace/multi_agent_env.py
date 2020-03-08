@@ -43,7 +43,6 @@ class MultiAgentSpaceEnv(gym.Env):
         self.agents = self.world.objects_agents_ai
 
         # set agents actions
-        print(action_n)
         for i, agent in enumerate(self.agents):
             self.__set_action_for_agent(
                 action_n[i], agent, self.action_space[i])

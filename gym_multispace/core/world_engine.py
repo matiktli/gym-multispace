@@ -11,7 +11,6 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
-                print(f'Applying move_act: {agent.action.move_act}')
                 entities_forces[i] = agent.action.move_act
 
         return entities_forces
@@ -48,7 +47,8 @@ class PhysicEngine():
         for i, entity in enumerate(world.objects_all):
             # This check is unnecessary, at this point not forces
             # should be applyed if entity can not move
-            print(f' Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}')
+            print(
+                f' Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}')
             if entity.can_move:
                 # Calculate new velocity for entity
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
@@ -147,7 +147,6 @@ class Equations:
         if force is not None:
             # V(new) = V(old) + F/m * t = V(old) + a * t = V(old) + V(delta)
             new_velocity += (force / mass) * timestamp
-            print(f'Force: {force}, mass: {mass}, vel: {new_velocity}')
 
         if max_speed is not None:
             # todo2 change to multi dim
@@ -170,7 +169,6 @@ class Equations:
                 new_position[1] = world_size[1]
             if new_position[1] < 0:
                 new_position[1] = 0
-        print(f'new pos: {new_position}')
         return np.nan_to_num(new_position)
 
     @staticmethod
