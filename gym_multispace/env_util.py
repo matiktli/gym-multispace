@@ -11,8 +11,9 @@ def create_env(scenario_path, is_absolute=False) -> Env:
     env = MultiAgentSpaceEnv(world=world,
                              reward_callback=scenario.get_reward,
                              observation_callback=scenario.get_observation,
-                             reset_callback=scenario.reset_world,
-                             done_callback=scenario.is_done)
+                             info_callback=scenario.get_info,
+                             done_callback=scenario.is_done,
+                             reset_callback=scenario.reset_world)
     return env
 
 
@@ -22,6 +23,7 @@ def create_single_env(scenario_path, is_absolute=False) -> Env:
     env = SingleAgentSpaceEnv(world=world,
                               reward_callback=scenario.get_reward,
                               observation_callback=scenario.get_observation,
-                              reset_callback=scenario.reset_world,
-                              done_callback=scenario.is_done)
+                              info_callback=scenario.get_info,
+                              done_callback=scenario.is_done,
+                              reset_callback=scenario.reset_world)
     return env

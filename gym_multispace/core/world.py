@@ -8,6 +8,7 @@ import numpy as np
 class World():
 
     def __init__(self, agents=None, special_objects=None):
+        self.step_counter = 0
         self.agents = agents
         self.special_objects = special_objects
         self.state = state.WorldState()
@@ -17,6 +18,7 @@ class World():
 
     # Update state of the world
     def step(self):
+        self.step_counter += 1
         # Get actions from callback for scripted (computer) agents
         self.__set_agents_actions_from_callback(
             self.objects_agents_all)

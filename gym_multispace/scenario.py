@@ -31,9 +31,11 @@ class BaseScenario(ABC):
     def get_observation(self, agent, world):
         raise NotImplementedError()
 
-    @abstractmethod
     def is_done(self, world):
         return False
+
+    def get_info(self):
+        return ["NO INFO DATA"]
 
 
 # Utility function to load scenarios from python file

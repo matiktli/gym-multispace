@@ -66,7 +66,8 @@ class MultiAgentSpaceEnv(gym.Env):
         --------------------------------
             Observation: {observation_n},
             Reward: {reward_n},
-            Info: {info_n}
+            Info: {info_n},
+            Done: {done_n}
         --------------------------------
         """)
         return observation_n, reward_n, done_n, info_n
@@ -252,7 +253,7 @@ Single agent wrapper for multi agent env
 class SingleAgentSpaceEnv(MultiAgentSpaceEnv):
 
     def step(self, action_n):
-        action_n = action_n[0]
+        # action_n = action_n[0]
         obs_n, rew_n, done_n, info_n = super().step(action_n)
         return obs_n[0], rew_n[0], done_n[0], info_n[0]
 
