@@ -202,7 +202,7 @@ class MultiAgentSpaceEnv(gym.Env):
         agent.action.grab_act = np.zeros(0)
         if agent.can_grab:
             if self.is_discrete:
-                # TODO set grab action
+                # todo2 set grab action
                 agent.action.grab_act = None
             else:
                 raise NotImplementedError(

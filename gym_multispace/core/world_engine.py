@@ -141,6 +141,7 @@ class Equations:
     def min_distance(size_a, size_b):
         return size_a + size_b
 
+    # TODO in general take look at physic it is not working properly
     @staticmethod
     def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
         new_velocity = velocity * friction  # changed from (1-friction)
