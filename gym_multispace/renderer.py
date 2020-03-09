@@ -113,16 +113,17 @@ class Renderer():
 
             else:
                 raise NotImplementedError(
-                    'Only Circle object rendering is supported for now')
-        # Flip image sicne cv2 has different x-axis
+                    'Only Circle objects rendering is supported in mvp.')
+        # Flip image since cv2 has different y-axis
         self.image = cv2.flip(self.image, 0)
         # Return image or display depend on mode
         if return_rgb_array:
-            return self.image
+            img = self.image
+            self.reset()
+            return img
         else:
             cv2.imshow(self.WINDOW_NAME, self.image)
             cv2.waitKey(1)
-        self.reset()
 
     def reset(self):
         self.objects_to_render = []
