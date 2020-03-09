@@ -34,7 +34,7 @@ class BaseScenario(ABC):
     def is_done(self, world):
         return False
 
-    def get_info(self):
+    def get_info(self, agent, world):
         return ["NO INFO DATA"]
 
 
