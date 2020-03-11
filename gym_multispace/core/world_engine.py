@@ -48,7 +48,7 @@ class PhysicEngine():
             # This check is unnecessary, at this point not forces
             # should be applyed if entity can not move
             print(
-                f' Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}')
+                f" Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}")
             if entity.can_move:
                 # Calculate new velocity for entity
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
@@ -88,13 +88,13 @@ class PhysicEngine():
                                          entity_a.state.vel,
                                          entity_b.state.vel)
         print(
-            f'1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
+            f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
         if entity_a.can_be_moved:
             force_a = force_a + i_force
         if entity_b.can_be_moved:
             force_b = force_b - i_force
         # input(
-        #     f'2_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.')
+        #     f"2_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
@@ -108,14 +108,14 @@ class PhysicEngine():
                                                 distance_between)
 
         print(
-            f'1_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
+            f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.")
         if entity_a.can_be_moved and False:
             force_a = force_a + g_force
         if entity_b.can_be_moved:
             force_b = force_b - g_force
 
         print(
-            f'2_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.')
+            f"2_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.")
         return force_a, force_b
 
 
