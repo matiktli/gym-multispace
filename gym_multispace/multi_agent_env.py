@@ -62,13 +62,6 @@ class MultiAgentSpaceEnv(gym.Env):
         reward = np.sum(reward_n)
         if self.is_reward_shared:
             reward_n = [reward] * self.n
-        print(f"""
-        --------------------------------
-            Observation: {observation_n},
-            Reward: {reward_n},
-            Info: {info_n},
-            Done: {done_n}
-        --------------------------------""")
         return observation_n, reward_n, done_n, info_n
 
     # Reset world, returning init observations for agents
