@@ -68,8 +68,7 @@ class MultiAgentSpaceEnv(gym.Env):
             Reward: {reward_n},
             Info: {info_n},
             Done: {done_n}
-        --------------------------------
-        """)
+        --------------------------------""")
         return observation_n, reward_n, done_n, info_n
 
     # Reset world, returning init observations for agents
