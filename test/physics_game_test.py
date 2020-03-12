@@ -8,19 +8,15 @@ initial_observation = env.reset()
 
 print("STARTING GAME")
 for i in range(300):
+    env.reset()
     move_act_space = env.action_space[0]
     all_actions = []
 
     # 1st agent actions
-    if i % 5 == 0:
-        all_actions.append(1)
-        all_actions.append(move_act_space.sample())
-    else:
-        all_actions.append(move_act_space.sample())
-        all_actions.append(1)
+    all_actions.append(move_act_space.sample())
 
     # 2nd agent actions
-    all_actions.append(0)
+    all_actions.append(move_act_space.sample())
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
     print(f""" 

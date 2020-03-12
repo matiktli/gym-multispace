@@ -31,7 +31,7 @@ class BaseScenario(ABC):
     def get_observation(self, agent, world):
         raise NotImplementedError()
 
-    def is_done(self, world):
+    def is_done(self, agent, world):
         return False
 
     def get_info(self, agent, world):

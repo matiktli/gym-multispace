@@ -116,13 +116,13 @@ class Renderer():
                     'Only Circle objects rendering is supported in mvp.')
         # Flip image since cv2 has different y-axis
         self.image = cv2.flip(self.image, 0)
+        img = self.image
+        self.reset()
         # Return image or display depend on mode
         if return_rgb_array:
-            img = self.image
-            self.reset()
             return img
         else:
-            cv2.imshow(self.WINDOW_NAME, self.image)
+            cv2.imshow(self.WINDOW_NAME, img)
             cv2.waitKey(1)
 
     def reset(self):

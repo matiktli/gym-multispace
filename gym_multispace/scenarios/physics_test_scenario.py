@@ -42,6 +42,9 @@ class Scenario(BaseScenario):
     def get_reward(self, agent, world):
         return 1.0
 
+    # observation callback function
     def get_observation(self, agent, world):
-        # Simple observation of agent position
-        return np.zeros(0)
+        print(f'GETTING OBS FOR AGENT: {agent.uuid}.')
+        # Simple observation of all agents position
+        obs = [ag.state.pos for ag in world.objects_all]
+        return np.concatenate(obs)
