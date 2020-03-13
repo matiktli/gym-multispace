@@ -20,16 +20,15 @@ class Scenario(BaseScenario):
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
-            agent.state.mass = 1
+            agent.state.mass = 0.5
             agent.state.size = 1
         for j, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{j}'
-            special_obj.state.mass = 1
+            special_obj.state.mass = 0.5
             special_obj.state.size = 5
 
         world.agents[0].color = 'green'
         world.agents[1].color = 'blue'
-        world.agents[0].state.mass = 10000000
 
         return world
 

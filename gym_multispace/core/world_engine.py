@@ -11,8 +11,8 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
-                entities_forces[i] = (agent.action.move_act +
-                                      agent.state.vel) * agent.state.mass
+                entities_forces[i] = agent.action.move_act + \
+                    (agent.state.vel * agent.state.mass)
 
         return entities_forces
 
@@ -88,7 +88,7 @@ class PhysicEngine():
                                          distance_between,
                                          entity_a.state.vel,
                                          entity_b.state.vel)
-        print(
+        input(
             f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
         if entity_a.can_be_moved:
             force_a = force_a + i_force

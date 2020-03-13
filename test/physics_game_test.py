@@ -18,6 +18,11 @@ for i in range(200):
     # 2nd agent actions
     all_actions.append(1)
 
+    if i > 14:
+        all_actions = []
+        all_actions.append(0)
+        all_actions.append(0)
+
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
     print(f""" 
     -----------------------------
