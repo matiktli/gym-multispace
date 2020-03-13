@@ -88,7 +88,7 @@ class PhysicEngine():
                                          distance_between,
                                          entity_a.state.vel,
                                          entity_b.state.vel)
-        input(
+        print(
             f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
         if entity_a.can_be_moved:
             force_a = force_a + i_force
