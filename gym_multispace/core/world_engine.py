@@ -11,7 +11,8 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
-                entities_forces[i] = agent.action.move_act
+                entities_forces[i] = (agent.action.move_act +
+                                      agent.state.vel) * agent.state.mass
 
         return entities_forces
 
@@ -39,7 +40,7 @@ class PhysicEngine():
                 # Apply all interaction forces between entityes to them
                 # TODO[hard] fix how forces are applied to entities
                 entities_forces[i_a] = entities_forces[i_a] + force_a
-                entities_forces[i_b] = entities_forces[i_b] + force_b
+                entities_forces[i_b] = entities_forces[i_b] - force_b
         return entities_forces
 
     # Calculate new state of entities/world after all forces applied

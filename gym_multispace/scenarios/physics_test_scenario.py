@@ -21,11 +21,15 @@ class Scenario(BaseScenario):
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
             agent.state.mass = 1
-            agent.state.size = 1 + i * 2
+            agent.state.size = 1
         for j, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{j}'
-            special_obj.state.mass = 10000000
-            special_obj.state.size = 10
+            special_obj.state.mass = 1
+            special_obj.state.size = 5
+
+        world.agents[0].color = 'green'
+        world.agents[1].color = 'blue'
+        world.agents[0].state.mass = 10000000
 
         return world
 
@@ -33,7 +37,7 @@ class Scenario(BaseScenario):
         print('RESETING WORLD')
         center_p = tuple([x / 2 for x in world.state.size])
 
-        world.agents[0].state.pos = (1, 1)
+        world.agents[0].state.pos = (12, 12)
         world.agents[1].state.pos = (center_p[0], 1)
 
         for i, special_obj in enumerate(world.special_objects):
