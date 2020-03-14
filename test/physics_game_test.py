@@ -6,7 +6,6 @@ scenario_path = '../gym_multispace/scenarios/physics_test_scenario.py'
 env = create_env(scenario_path)
 initial_observation = env.reset()
 env.reset()
-input('...')
 print("STARTING GAME")
 for i in range(150):
     move_act_space = env.action_space[0]
@@ -22,6 +21,11 @@ for i in range(150):
         all_actions = []
         all_actions.append(0)
         all_actions.append(3)
+
+    if i > 14:
+        all_actions = []
+        all_actions.append(0)
+        all_actions.append(0)
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
     the_same_obs = obs_n[0]

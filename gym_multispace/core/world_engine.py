@@ -12,7 +12,7 @@ class PhysicEngine():
             if agent.can_move:
                 # todo2 - noise?
                 entities_forces[i] = agent.action.move_act * \
-                    agent.state.mass  # TODO Here we need to apply momentum
+                    agent.state.mass
 
         return entities_forces
 
@@ -23,6 +23,9 @@ class PhysicEngine():
             for i_b, entity_b in enumerate(world.objects_all):
                 if entity_a.uuid == entity_b.uuid:
                     # Entity can not interact with itself
+                    continue
+                if i_a >= i_b:
+                    # We calculate actions between entities once
                     continue
                 force_a = np.zeros(world.state.dim)
                 force_b = np.zeros(world.state.dim)
@@ -65,7 +68,6 @@ class PhysicEngine():
                                                                 world.state.size)
 
     def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
-        # return force_a, force_b
         # Safety check on input:
         force_a = np.nan_to_num(force_a)
         force_b = np.nan_to_num(force_b)
@@ -88,14 +90,19 @@ class PhysicEngine():
                                          distance_between,
                                          entity_a.state.vel,
                                          entity_b.state.vel)
-        print(
-            f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
+
+        force_a_init, force_b_init = force_a, force_b
         if entity_a.can_be_moved:
             force_a = force_a + i_force
         if entity_b.can_be_moved:
             force_b = force_b - i_force
-        # input(
-        #     f"2_[{entity_a.uuid} -> {entity_b.uuid}]\n  i_force: {i_force}, force_a: {force_a}, force_b: {force_b}.")
+
+        input(f""" 
+            Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
+            Initial forces: {force_a_init} | {force_b_init}
+            Result forces: {force_a} | {force_b}
+            Impact force: {i_force}
+        """)
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):
