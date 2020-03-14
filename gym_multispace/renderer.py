@@ -91,6 +91,8 @@ class Renderer():
         self.objects_to_render = []
         # Reset renderer state
         self.reset()
+        cv2.namedWindow(self.WINDOW_NAME)        # Create a named window
+        cv2.moveWindow(self.WINDOW_NAME, 40, 30)  # Move it to (40,30)
 
     def add_object_to_frame(self, visual_object):
         if self.scaler:

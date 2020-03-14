@@ -18,7 +18,7 @@ class WorldState():
         self.timestamp = 0.5
 
         # Environment friction
-        self.friction = 0.10
+        self.friction = 0.9
 
         # Entities contact margin
         self.contact_margin = 1

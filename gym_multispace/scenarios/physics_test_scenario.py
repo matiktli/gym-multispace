@@ -20,11 +20,11 @@ class Scenario(BaseScenario):
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
-            agent.state.mass = 0.5
+            agent.state.mass = 3.5
             agent.state.size = 1
         for j, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{j}'
-            special_obj.state.mass = 0.5
+            special_obj.state.mass = 3
             special_obj.state.size = 5
 
         world.agents[0].color = 'green'
@@ -49,5 +49,8 @@ class Scenario(BaseScenario):
     def get_observation(self, agent, world):
         print(f'GETTING OBS FOR AGENT: {agent.uuid}.')
         # Simple observation of all agents position
-        obs = [ag.state.pos for ag in world.objects_all]
+        obs = []
+        for obj in world.objects_all:
+            obs.append(obj.state.pos)
+            obs.append(obj.state.vel)
         return np.concatenate(obs)

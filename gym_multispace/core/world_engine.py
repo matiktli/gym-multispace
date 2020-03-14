@@ -11,8 +11,8 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
-                entities_forces[i] = agent.action.move_act + \
-                    (agent.state.vel * agent.state.mass)
+                entities_forces[i] = agent.action.move_act * \
+                    agent.state.mass  # TODO Here we need to apply momentum
 
         return entities_forces
 
