@@ -1,4 +1,4 @@
-# Multi-Agent Space Environment GymAI
+# Multi-Agent Gym Environment
 
 Training environment for project: [gym-multispace-AI](https://github.com/matiktli/gym-multispace-ai).\
 (BSc Software Engineer final project)
