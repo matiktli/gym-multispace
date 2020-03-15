@@ -97,7 +97,7 @@ class PhysicEngine():
         if entity_b.can_be_moved:
             force_b = force_b + i_force
 
-        input(f""" 
+        print(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
             Initial forces: {force_a_init} | {force_b_init}
             Result forces: {force_a} | {force_b}
