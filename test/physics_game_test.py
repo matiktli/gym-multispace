@@ -7,23 +7,17 @@ env = create_env(scenario_path)
 initial_observation = env.reset()
 env.reset()
 print("STARTING GAME")
-for i in range(150):
+for i in range(300):
     move_act_space = env.action_space[0]
     all_actions = []
 
-    # 1st agent actions
+    all_actions.append(4)
+    all_actions.append(3)
     all_actions.append(0)
 
-    # 2nd agent actions
-    all_actions.append(1)
-
-    if i > 5:
-        all_actions = []
+    if False:
+        all_actions.clear()
         all_actions.append(0)
-        all_actions.append(3)
-
-    if i > 14:
-        all_actions = []
         all_actions.append(0)
         all_actions.append(0)
 

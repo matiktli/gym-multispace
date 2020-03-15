@@ -10,25 +10,26 @@ class Scenario(BaseScenario):
     def generate_world(self):
         print('GENERATING WORLD')
         world = World()
-        world.state.size = (50, 50)
+        world.state.size = (30, 30)
         world.is_reward_shared = False
         world.is_discrete = True
-        world.agents = [Agent(), Agent()]
+        world.agents = [Agent(), Agent(), Agent()]
         world.special_objects = [SpecialObject()]
 
         for i, agent in enumerate(world.agents):
             agent.can_grab = False
             agent.uuid = f'a_{i}'
             agent.view_range = np.inf
-            agent.state.mass = 3.5
+            agent.state.mass = 3
             agent.state.size = 1
         for j, special_obj in enumerate(world.special_objects):
             special_obj.uuid = f'o_{j}'
             special_obj.state.mass = 3
-            special_obj.state.size = 5
+            special_obj.state.size = 3
 
         world.agents[0].color = 'green'
         world.agents[1].color = 'blue'
+        world.agents[2].color = 'red'
 
         return world
 
@@ -36,8 +37,9 @@ class Scenario(BaseScenario):
         print('RESETING WORLD')
         center_p = tuple([x / 2 for x in world.state.size])
 
-        world.agents[0].state.pos = (12 + 15, 12)
-        world.agents[1].state.pos = (center_p[0] + 15, 1)
+        world.agents[0].state.pos = (10, 9)
+        world.agents[1].state.pos = (15, 8)
+        world.agents[2].state.pos = (0, 8)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)

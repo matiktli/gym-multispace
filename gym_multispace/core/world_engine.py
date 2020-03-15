@@ -43,7 +43,7 @@ class PhysicEngine():
                 # Apply all interaction forces between entityes to them
                 # TODO[hard] fix how forces are applied to entities
                 entities_forces[i_a] = entities_forces[i_a] + force_a
-                entities_forces[i_b] = entities_forces[i_b] - force_b
+                entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
 
     # Calculate new state of entities/world after all forces applied
@@ -93,9 +93,9 @@ class PhysicEngine():
 
         force_a_init, force_b_init = force_a, force_b
         if entity_a.can_be_moved:
-            force_a = force_a + i_force
+            force_a = force_a - i_force
         if entity_b.can_be_moved:
-            force_b = force_b - i_force
+            force_b = force_b + i_force
 
         input(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
