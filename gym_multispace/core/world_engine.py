@@ -1,7 +1,9 @@
 import numpy as np
-
+import math
 
 # Physic engine of the world
+
+
 class PhysicEngine():
 
     # Apply forces coresponding to actions taken by agents
@@ -33,7 +35,8 @@ class PhysicEngine():
                     force_a, force_b = self.__apply_impact_force_between_entities(entity_a,
                                                                                   entity_b,
                                                                                   force_a,
-                                                                                  force_b)
+                                                                                  force_b,
+                                                                                  world.state.timestamp)
 
                 force_a, force_b = self.__apply_gravitational_force_between_entities(entity_a,
                                                                                      entity_b,
@@ -67,7 +70,7 @@ class PhysicEngine():
                                                                 world.state.timestamp,
                                                                 world.state.size)
 
-    def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b):
+    def __apply_impact_force_between_entities(self, entity_a, entity_b, force_a, force_b, timestamp):
         # Safety check on input:
         force_a = np.nan_to_num(force_a)
         force_b = np.nan_to_num(force_b)
@@ -89,7 +92,8 @@ class PhysicEngine():
                                          entity_b.state.mass,
                                          distance_between,
                                          entity_a.state.vel,
-                                         entity_b.state.vel)
+                                         entity_b.state.vel,
+                                         timestamp)
 
         force_a_init, force_b_init = force_a, force_b
         if entity_a.can_be_moved:
@@ -188,8 +192,15 @@ class Equations:
 
     # F = m * a    // force = mass * velocity
     @staticmethod
-    def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b):
+    def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b, timestamp):
         # F = 1/2 * m * v^2 / d
-        impact_force = 0.5 * (mass_a + mass_b) * \
-            np.power(velocity_a + velocity_b, 2) / distance
+        # impact_force = 0.5 * (mass_a + mass_b) * \
+        #     np.power(abs(velocity_a) + abs(velocity_b), 2) / distance
+
+        # F = 2mv*dt
+        impact_force = 2 * (mass_a + mass_b) * \
+            (abs(velocity_a) + abs(velocity_b)) * timestamp
+        print(
+            f'Impact_force: {impact_force} | Va: {velocity_a}, Vb: {velocity_b}, d: {distance}')
+        impact_force = impact_force + (3.0, 3.0)
         return np.nan_to_num(impact_force)

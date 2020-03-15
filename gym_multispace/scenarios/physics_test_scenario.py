@@ -31,6 +31,8 @@ class Scenario(BaseScenario):
         world.agents[1].color = 'blue'
         world.agents[2].color = 'red'
 
+        world.agents[1].state.size = 2
+
         return world
 
     def reset_world(self, world):
@@ -38,8 +40,8 @@ class Scenario(BaseScenario):
         center_p = tuple([x / 2 for x in world.state.size])
 
         world.agents[0].state.pos = (10, 9)
-        world.agents[1].state.pos = (15, 8)
-        world.agents[2].state.pos = (0, 8)
+        world.agents[1].state.pos = (15, 9)
+        world.agents[2].state.pos = (5, 8)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)

@@ -1,23 +1,62 @@
 # Multi-Agent Space Environment GymAI
 
-Inspired by: [Halite.io - 1st edition](https://2016.halite.io/index.html).
+Training environment for project: [gym-multispace-AI](https://github.com/matiktli/gym-multispace-ai).\
+(BSc Software Engineer final project)
 
 ## About
 
-Transforming <https://github.com/matiktli/DRONE_GAME_AI> into OpenAI's GYM env.
+Simple physical environment for training reinforecement learning agents. In format of [Gym](https://gym.openai.com/) from OpenAi. Supporting multiple agents.
 
 ## Instalation
 
-Install env:
-`pip install -e .`
+Install environment with required packages: 
+```
+pip install -e .
+```
 
-Test:
-
+Implement OpenAi gym
 ```python
 import gym
 import gym_multispace
 gym.make('multispace-v0')
 ```
+
+or create environment via util:
+```python
+from gym_multispace import env_util
+env = env_util.create_env(scenario_path = '...')
+```
+
+## Documentation
+
+Link to docs: [DOCS](https://github.com/matiktli/gym-multispace/blob/master/gym_multispace/README.md)
+
+## Runing sample game
+```python
+# Load scenario and create gym-ai environment
+env = create_env(scenario_path='sample_scenario.py')
+# Reset environment before first step
+env.reset()
+for i in range(100):
+    # Chose random action for agent in current step
+    move_act = env.action_space.sample()
+    
+    # Send action to environemnt via making a step,
+    # returning observations, rewards and other for all agents.
+    obs_n, rew_n, done_n, info_n = env.step(action_n=[move_act])
+
+    # Render environment image on each step
+    env.render(mode='human')
+```
+
+## Assets
+
+![](assets/example_learning.gif)
+Sample game where agent(blue) is learning to reach the goal(gray).
+
+\
+![](assets/momentum.gif)
+Momentum example.
 
 ## License
 

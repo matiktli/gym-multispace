@@ -13,13 +13,13 @@ for i in range(300):
 
     all_actions.append(4)
     all_actions.append(3)
-    all_actions.append(0)
+    all_actions.append(4)
 
-    if False:
+    if i > 16:
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
-        all_actions.append(0)
+        all_actions.append(4)
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
     the_same_obs = obs_n[0]
