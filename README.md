@@ -51,11 +51,11 @@ for i in range(100):
 
 ## Assets
 
-Sample game where agent(blue) is learning to reach the goal(gray).
+Sample game where agent(blue) is learning to reach the goal(gray).\
 ![](assets/example_learning.gif)
 
-\
-Momentum example.
+
+Momentum example.\
 ![](assets/momentum.gif)
 
 ## License
