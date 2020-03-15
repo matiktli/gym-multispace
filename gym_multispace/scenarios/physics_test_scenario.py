@@ -31,8 +31,6 @@ class Scenario(BaseScenario):
         world.agents[1].color = 'blue'
         world.agents[2].color = 'red'
 
-        world.agents[1].state.size = 2
-
         return world
 
     def reset_world(self, world):

@@ -7,7 +7,7 @@ env = create_env(scenario_path)
 initial_observation = env.reset()
 env.reset()
 print("STARTING GAME")
-for i in range(300):
+for i in range(120):
     move_act_space = env.action_space[0]
     all_actions = []
 
@@ -15,11 +15,17 @@ for i in range(300):
     all_actions.append(3)
     all_actions.append(4)
 
-    if i > 16:
+    if i > 18:
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
         all_actions.append(4)
+
+    if i > 43:
+        all_actions.clear()
+        all_actions.append(0)
+        all_actions.append(0)
+        all_actions.append(0)
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
     the_same_obs = obs_n[0]

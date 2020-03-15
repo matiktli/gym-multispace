@@ -13,12 +13,23 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if agent.can_move:
                 # todo2 - noise?
-                entities_forces[i] = agent.action.move_act * \
+                entities_forces[i] = entities_forces[i] + agent.action.move_act * \
                     agent.state.mass
 
         return entities_forces
 
+    def apply_force_from_momentum(self, world, entities_forces):
+        for i, agent in enumerate(world.objects_all):
+            if agent.can_be_moved or agent.can_move:
+                momentum = Equations.momentum(
+                    agent.state.mass, agent.state.vel)
+                m_force = Equations.force_from_momentum(
+                    momentum, world.state.timestamp)
+                entities_forces[i] = entities_forces[i] + m_force
+        return entities_forces
+
     # Apply physical forces of environment and forces between objects
+
     def apply_physical_interaction_forces(self, world, entities_forces):
         # Each object interact with all other entities in the world besides of itself
         for i_a, entity_a in enumerate(world.objects_all):
@@ -45,6 +56,10 @@ class PhysicEngine():
 
                 # Apply all interaction forces between entityes to them
                 # TODO[hard] fix how forces are applied to entities
+                print(f"""
+                Force A ({entity_a.uuid}): {entities_forces[i_a]}  <-  {force_a}
+                Force B ({entity_b.uuid}): {entities_forces[i_b]}  <-  {force_b}
+                """)
                 entities_forces[i_a] = entities_forces[i_a] + force_a
                 entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
@@ -101,7 +116,7 @@ class PhysicEngine():
         if entity_b.can_be_moved:
             force_b = force_b + i_force
 
-        print(f""" 
+        input(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
             Initial forces: {force_a_init} | {force_b_init}
             Result forces: {force_a} | {force_b}
@@ -204,3 +219,13 @@ class Equations:
             f'Impact_force: {impact_force} | Va: {velocity_a}, Vb: {velocity_b}, d: {distance}')
         impact_force = impact_force + (3.0, 3.0)
         return np.nan_to_num(impact_force)
+
+    @staticmethod
+    def momentum(mass_a, vel_a):
+        momentum = mass_a * vel_a
+        return momentum
+
+    @staticmethod
+    def force_from_momentum(momentum, timestamp):
+        m_force = momentum * timestamp
+        return m_force

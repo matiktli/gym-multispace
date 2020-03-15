@@ -43,6 +43,9 @@ class World():
         # ]
         entities_forces = [np.zeros(self.state.dim) for _ in self.objects_all]
 
+        # Apply forces from momentum?
+        self.engine.apply_force_from_momentum(self, entities_forces)
+
         # Apply forces coresponding to actions taken by agents
         self.engine.apply_actions_forces(self, entities_forces)
 
