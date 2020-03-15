@@ -111,10 +111,17 @@ class PhysicEngine():
                                          timestamp)
 
         force_a_init, force_b_init = force_a, force_b
+
+        def apply_impact_force(i_force, entity_force, pos_a, pos_b):
+            # TODO Fix this stupid impact force not working on all axis
+            return entity_force + i_force
+
         if entity_a.can_be_moved:
-            force_a = force_a - i_force
+            force_a = apply_impact_force(-i_force, force_a,
+                                         entity_a.state.pos, entity_b.state.pos)
         if entity_b.can_be_moved:
-            force_b = force_b + i_force
+            force_b = apply_impact_force(+i_force, force_b,
+                                         entity_a.state.pos, entity_b.state.pos)
 
         input(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}

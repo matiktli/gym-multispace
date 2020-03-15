@@ -122,8 +122,9 @@ class MultiAgentSpaceEnv(gym.Env):
                 self.action_space.append(total_action_space[0])
 
             # Generate observation space
-            obs_dim = len(self.observation_callback(agent, world))
-            obs_space = self.____get_observation_space(agent, obs_dim)
+            tmp_obs_of_single_agent = self.observation_callback(agent, world)
+            obs_space = self.____get_observation_space(
+                agent, tmp_obs_of_single_agent.shape)
             self.observation_space.append(obs_space)
 
     # Define MOVE action space for agent
@@ -159,7 +160,7 @@ class MultiAgentSpaceEnv(gym.Env):
     # Define observation space for agent
     def ____get_observation_space(self, agent, observation_dim):
         view_range = agent.view_range if agent.view_range is None else np.inf
-        return spaces.Box(low=-view_range, high=+view_range, shape=(observation_dim,), dtype=np.float32)
+        return spaces.Box(low=-view_range, high=+view_range, shape=observation_dim, dtype=np.float32)
 
     """
     PART_2: Setting actions for agents.

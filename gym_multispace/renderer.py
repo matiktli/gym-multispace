@@ -24,6 +24,8 @@ class CircleVisualObject(VisualObject):
 
     def __init__(self, pos, color, radius):
         super().__init__(pos, color)
+        if isinstance(radius, int):
+            radius = (radius, radius)
         self.radius = radius
 
     def render_internal(self, image):

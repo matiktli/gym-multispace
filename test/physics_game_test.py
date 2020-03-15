@@ -41,9 +41,12 @@ for i in range(120):
         AG_Blue:
             POS: {the_same_obs[4:6]}
             VEL: {the_same_obs[6:8]}
-        SP:
+        AG_Red:
             POS: {the_same_obs[8:10]}
             VEL: {the_same_obs[10:12]}
+        SP:
+            POS: {the_same_obs[12:14]}
+            VEL: {the_same_obs[14:16]}
     -----------------------------
     """)
     env.render(mode='human')

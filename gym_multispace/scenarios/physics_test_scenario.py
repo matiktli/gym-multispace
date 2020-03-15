@@ -39,7 +39,7 @@ class Scenario(BaseScenario):
 
         world.agents[0].state.pos = (10, 9)
         world.agents[1].state.pos = (15, 9)
-        world.agents[2].state.pos = (5, 8)
+        world.agents[2].state.pos = (5, 7)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)
