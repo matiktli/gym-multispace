@@ -54,8 +54,6 @@ class PhysicEngine():
                                                                                      force_a,
                                                                                      force_b)
 
-                # Apply all interaction forces between entityes to them
-                # TODO[hard] fix how forces are applied to entities
                 print(f"""
                 Force A ({entity_a.uuid}): {entities_forces[i_a]}  <-  {force_a}
                 Force B ({entity_b.uuid}): {entities_forces[i_b]}  <-  {force_b}
@@ -141,15 +139,23 @@ class PhysicEngine():
                                                 entity_b.state.mass,
                                                 distance_between)
 
-        print(
-            f"1_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.")
-        if entity_a.can_be_moved and False:
-            force_a = force_a + g_force
-        if entity_b.can_be_moved:
-            force_b = force_b - g_force
+        force_a_init, force_b_init = force_a, force_b
 
-        print(
-            f"2_[{entity_a.uuid} -> {entity_b.uuid}]\n  g_force: {g_force}, force_a: {force_a}, force_b: {force_b}.")
+        def apply_gravity_force(g_force, entity_force):
+            # TODO Fix gravity force
+            return entity_force + g_force
+
+        if entity_a.can_be_moved:
+            force_a = apply_gravity_force(-g_force, force_a)
+        if entity_b.can_be_moved:
+            force_b = apply_gravity_force(+g_force, force_b)
+
+        print(f""" 
+            Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
+            Initial forces: {force_a_init} | {force_b_init}
+            Result forces: {force_a} | {force_b}
+            Grvitational force: {g_force}
+        """)
         return force_a, force_b
 
 
@@ -175,7 +181,6 @@ class Equations:
     def min_distance(size_a, size_b):
         return size_a + size_b
 
-    # TODO in general take look at physic it is not working properly
     @staticmethod
     def calculate_velocity(velocity, force, mass, max_speed, friction, timestamp):
         new_velocity = velocity * friction  # changed from (1-friction)
@@ -184,7 +189,6 @@ class Equations:
             new_velocity += (force / mass) * timestamp
 
         if max_speed is not None:
-            # todo2 change to multi dim
             speed = np.sqrt(
                 np.square(new_velocity[0]) + np.square(new_velocity[1]))
             if speed > max_speed:
