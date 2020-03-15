@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import cv2
 import numpy as np
+import os
 
 
 class VisualObject(ABC):
@@ -91,10 +92,9 @@ class Renderer():
         self.window_name = Renderer.WINDOW_NAME
         self.scaler = Scaler(world_size, self.window_size)
         self.objects_to_render = []
+        self.window_created = False
         # Reset renderer state
         self.reset()
-        cv2.namedWindow(self.WINDOW_NAME)        # Create a named window
-        cv2.moveWindow(self.WINDOW_NAME, 40, 30)  # Move it to (40,30)
 
     def add_object_to_frame(self, visual_object):
         if self.scaler:
@@ -126,6 +126,10 @@ class Renderer():
         if return_rgb_array:
             return img
         else:
+            if not self.window_created:
+                cv2.namedWindow(self.WINDOW_NAME)
+                cv2.moveWindow(self.WINDOW_NAME, 40, 30)
+                self.window_created = True
             cv2.imshow(self.WINDOW_NAME, img)
             cv2.waitKey(1)
 

@@ -1,5 +1,7 @@
 from gym_multispace.core.world import World
 from gym_multispace.core.entity import Agent, SpecialObject
+from gym_multispace.renderer import CircleVisualObject
+import cv2
 
 from abc import ABC, abstractmethod
 import imp
@@ -36,6 +38,22 @@ class BaseScenario(ABC):
 
     def get_info(self, agent, world):
         return ["NO INFO DATA"]
+
+    def get_graphical_observation(self, agent, world):
+        image = 255 * np.ones((250, 250, 3), np.uint8)
+        for agent in world.objects_all:
+            v_obj = CircleVisualObject(
+                agent.state.pos, agent.color, agent.state.size)
+            # Trick to add oppacity images in cv2
+            overlay = image.copy()
+            overlay = v_obj.render(overlay)
+            oppacity = 0.6
+            image = cv2.addWeighted(overlay,
+                                    oppacity,
+                                    image,
+                                    1 - oppacity,
+                                    0)
+        return image
 
 
 # Utility function to load scenarios from python file
