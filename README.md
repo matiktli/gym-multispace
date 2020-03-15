@@ -31,7 +31,7 @@ env = env_util.create_env(scenario_path = '...')
 
 Link to docs: [DOCS](https://github.com/matiktli/gym-multispace/blob/master/gym_multispace/README.md)
 
-## Runing sample game
+## Running sample game
 ```python
 # Load scenario and create gym-ai environment
 env = create_env(scenario_path='sample_scenario.py')
