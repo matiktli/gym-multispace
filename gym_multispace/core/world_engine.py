@@ -123,7 +123,7 @@ class PhysicEngine():
             force_b = apply_impact_force(+i_force, force_b,
                                          entity_a.state.pos, entity_b.state.pos)
 
-        input(f""" 
+        print(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
             Initial forces: {force_a_init} | {force_b_init}
             Result forces: {force_a} | {force_b}
