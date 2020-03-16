@@ -1,6 +1,6 @@
 from gym_multispace.core.world import World
 from gym_multispace.core.entity import Agent, SpecialObject
-from gym_multispace.renderer import CircleVisualObject
+from gym_multispace.renderer import CircleVisualObject, Scaler
 import cv2
 
 from abc import ABC, abstractmethod
@@ -39,7 +39,23 @@ class BaseScenario(ABC):
     def get_info(self, agent, world):
         return ["NO INFO DATA"]
 
-    def get_graphical_observation(self, agent, world):
+
+# Utility function to load scenarios from python file
+def load_scenario_from_file(file_path, is_absolute):
+    obj = None
+    if is_absolute:
+        # load file from wherever
+        obj = imp.load_source('', file_path)
+    else:
+        pathname = os.path.join(os.path.dirname(__file__), file_path)
+        obj = imp.load_source('', pathname)
+    return obj
+
+
+class ScenarioUtils():
+
+    @staticmethod
+    def get_graphical_observation(agent, world):
         image = 255 * np.ones((250, 250, 3), np.uint8)
         for agent in world.objects_all:
             v_obj = CircleVisualObject(
@@ -54,15 +70,3 @@ class BaseScenario(ABC):
                                     1 - oppacity,
                                     0)
         return image
-
-
-# Utility function to load scenarios from python file
-def load_scenario_from_file(file_path, is_absolute):
-    obj = None
-    if is_absolute:
-        # load file from wherever
-        obj = imp.load_source('', file_path)
-    else:
-        pathname = os.path.join(os.path.dirname(__file__), file_path)
-        obj = imp.load_source('', pathname)
-    return obj
