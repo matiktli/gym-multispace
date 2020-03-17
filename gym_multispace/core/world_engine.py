@@ -18,6 +18,16 @@ class PhysicEngine():
 
         return entities_forces
 
+    def apply_game_border_forces(self, world, entities_forces):
+        if not world.state.size:
+            return entities_forces
+        for i, agent in enumerate(world.objects_all):
+            if Equations.is_touching_border(agent.state.pos, world.state.size, agent.state.size):
+                b_force = Equations.calculate_border_force(
+                    agent.state.pos, world.state.size, entities_forces[i], -2)
+                entities_forces[i] = b_force
+        return entities_forces
+
     def apply_force_from_momentum(self, world, entities_forces):
         for i, agent in enumerate(world.objects_all):
             if agent.can_be_moved or agent.can_move:
@@ -240,3 +250,16 @@ class Equations:
     def force_from_momentum(momentum, timestamp):
         m_force = momentum * timestamp
         return m_force
+
+    @staticmethod
+    def is_touching_border(entity_pos, world_size, margin=0):
+        if (entity_pos[0] > world_size[0] - margin) or (entity_pos[0] < margin) or (entity_pos[1] > world_size[1] - margin) or (entity_pos[1] < margin):
+            return True
+
+    @staticmethod
+    def calculate_border_force(entity_pos, world_size, entity_force, modifier=1):
+        # TODO calculate border pushing force
+        b_force = entity_force * modifier
+        input(
+            f'Entity hit wall with force: {entity_force}, result force: {b_force}')
+        return b_force

@@ -52,6 +52,9 @@ class World():
         # Apply forces from interactions between objects
         self.engine.apply_physical_interaction_forces(self, entities_forces)
 
+        # Apply forces from world's borders
+        self.engine.apply_game_border_forces(self, entities_forces)
+
         # Calculate new state of entities/world after all forces applied
         self.engine.calculate_new_state(self, entities_forces)
 

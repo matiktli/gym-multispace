@@ -13,7 +13,7 @@ class Scenario(BaseScenario):
         world.state.size = (30, 30)
         world.is_reward_shared = False
         world.is_discrete = True
-        world.agents = [Agent(), Agent(), Agent()]
+        world.agents = [Agent(), Agent(), Agent(), Agent()]
         world.special_objects = [SpecialObject()]
 
         for i, agent in enumerate(world.agents):
@@ -40,6 +40,7 @@ class Scenario(BaseScenario):
         world.agents[0].state.pos = (10, 9)
         world.agents[1].state.pos = (15, 9)
         world.agents[2].state.pos = (5, 7)
+        world.agents[3].state.pos = (5, 15)
 
         for i, special_obj in enumerate(world.special_objects):
             special_obj.state.pos = (center_p[0] - i, center_p[1] + i)

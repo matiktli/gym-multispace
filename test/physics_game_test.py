@@ -14,15 +14,24 @@ for i in range(120):
     all_actions.append(4)
     all_actions.append(3)
     all_actions.append(4)
+    all_actions.append(3)
 
     if i > 18:
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
         all_actions.append(4)
+        all_actions.append(3)
 
-    if i > 43:
+    if i > 37:
         all_actions.clear()
+        all_actions.append(0)
+        all_actions.append(0)
+        all_actions.append(0)
+        all_actions.append(1)
+    if i > 50:
+        all_actions.clear()
+        all_actions.append(0)
         all_actions.append(0)
         all_actions.append(0)
         all_actions.append(0)
@@ -44,9 +53,12 @@ for i in range(120):
         AG_Red:
             POS: {the_same_obs[8:10]}
             VEL: {the_same_obs[10:12]}
-        SP:
+        AG_Blue2:
             POS: {the_same_obs[12:14]}
             VEL: {the_same_obs[14:16]}
+        SP:
+            POS: {the_same_obs[16:18]}
+            VEL: {the_same_obs[18:20]}
     -----------------------------
     """)
     env.render(mode='human')
