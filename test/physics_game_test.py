@@ -27,8 +27,8 @@ for i in range(120):
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
-        all_actions.append(0)
-        all_actions.append(1)
+        all_actions.append(4)
+        all_actions.append(3)
     if i > 50:
         all_actions.clear()
         all_actions.append(0)
