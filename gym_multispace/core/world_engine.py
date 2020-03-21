@@ -118,18 +118,14 @@ class PhysicEngine():
                                          entity_b.state.vel,
                                          timestamp)
 
+        force_vector_modulator = Equations.calculate_impact_force_directions(
+            entity_a.state.pos, entity_b.state.pos)
+
         force_a_init, force_b_init = force_a, force_b
-
-        def apply_impact_force(i_force, entity_force, pos_a, pos_b):
-            # TODO Fix this stupid impact force not working on all axis
-            return entity_force + i_force
-
         if entity_a.can_be_moved:
-            force_a = apply_impact_force(-i_force, force_a,
-                                         entity_a.state.pos, entity_b.state.pos)
+            force_a = force_a + (i_force * force_vector_modulator[0])
         if entity_b.can_be_moved:
-            force_b = apply_impact_force(+i_force, force_b,
-                                         entity_a.state.pos, entity_b.state.pos)
+            force_b = force_b + (i_force * force_vector_modulator[1])
 
         print(f""" 
             Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
@@ -230,16 +226,27 @@ class Equations:
     @staticmethod
     def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b, timestamp):
         # F = 1/2 * m * v^2 / d
-        # impact_force = 0.5 * (mass_a + mass_b) * \
-        #     np.power(abs(velocity_a) + abs(velocity_b), 2) / distance
+        impact_force = 0.5 * (mass_a + mass_b) * \
+            np.power(abs(velocity_a) + abs(velocity_b), 2) / distance
 
         # F = 2mv*dt
-        impact_force = 2 * (mass_a + mass_b) * \
-            (abs(velocity_a) + abs(velocity_b)) * timestamp
+        # impact_force = 2 * (mass_a + mass_b) * \
+        #     (abs(velocity_a) + abs(velocity_b)) * timestamp
         print(
             f'Impact_force: {impact_force} | Va: {velocity_a}, Vb: {velocity_b}, d: {distance}')
-        impact_force = impact_force + (3.0, 3.0)
         return np.nan_to_num(impact_force)
+
+    # Help to calculate direction of impact force between objects
+    @staticmethod
+    def calculate_impact_force_directions(pos_a, pos_b):
+        a_direction_result = np.ones(2)
+        if pos_a[0] <= pos_b[0]:
+            a_direction_result = a_direction_result * (-1, 1)
+
+        if pos_a[1] <= pos_b[1]:
+            a_direction_result = a_direction_result * (1, -1)
+
+        return (a_direction_result, a_direction_result * (-1, -1))
 
     @staticmethod
     def momentum(mass_a, vel_a):
@@ -263,6 +270,4 @@ class Equations:
             b_force = b_force * (-1, 1)
         if (entity_pos[1] >= world_size[1] - margin) or (entity_pos[1] <= margin):
             b_force = b_force * (1, -1)
-        print(
-            f'Entity hit wall with force: {entity_force}, result force: {b_force}')
         return b_force

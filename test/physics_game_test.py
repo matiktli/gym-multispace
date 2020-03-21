@@ -14,26 +14,26 @@ for i in range(120):
     all_actions.append(4)
     all_actions.append(3)
     all_actions.append(4)
-    all_actions.append(3)
+    all_actions.append(4)
 
     if i > 18:
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
         all_actions.append(4)
-        all_actions.append(3)
+        all_actions.append(4)
 
     if i > 37:
         all_actions.clear()
         all_actions.append(0)
         all_actions.append(0)
         all_actions.append(4)
-        all_actions.append(3)
+        all_actions.append(4)
     if i > 50:
         all_actions.clear()
         all_actions.append(0)
-        all_actions.append(0)
-        all_actions.append(0)
+        all_actions.append(3)
+        all_actions.append(4)
         all_actions.append(0)
 
     obs_n, rew_n, done_n, info_n = env.step(action_n=all_actions)
