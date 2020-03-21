@@ -55,11 +55,13 @@ def load_scenario_from_file(file_path, is_absolute):
 class ScenarioUtils():
 
     @staticmethod
-    def get_graphical_observation(agent, world):
-        image = 255 * np.ones((250, 250, 3), np.uint8)
+    def get_graphical_observation(agent, world, output_shape=(250, 250, 3)):
+        image = 255 * np.ones(output_shape, np.uint8)
+        scaler = Scaler(world.state.size, (output_shape[0], output_shape[1]))
         for agent in world.objects_all:
             v_obj = CircleVisualObject(
                 agent.state.pos, agent.color, agent.state.size)
+            v_obj = scaler.scale_object(v_obj)
             # Trick to add oppacity images in cv2
             overlay = image.copy()
             overlay = v_obj.render(overlay)
