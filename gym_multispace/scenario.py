@@ -71,7 +71,6 @@ class ScenarioUtils():
                                     image,
                                     1 - oppacity,
                                     0)
-        cv2.imshow('ttt', image)
-        cv2.waitKey(2)
-        input('...')
+        # cv2.imshow('test', image)
+        # cv2.waitKey(2)
         return image
