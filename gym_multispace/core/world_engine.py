@@ -24,7 +24,7 @@ class PhysicEngine():
         for i, agent in enumerate(world.objects_all):
             if Equations.is_touching_border(agent.state.pos, world.state.size, agent.state.size):
                 b_force = Equations.calculate_border_force(
-                    agent.state.pos, world.state.size, entities_forces[i], 10)
+                    agent.state.pos, world.state.size, entities_forces[i], 10, 50)
                 entities_forces[i] = entities_forces[i] + b_force
         return entities_forces
 
@@ -103,8 +103,6 @@ class PhysicEngine():
 
         distance_between = Equations.distance(entity_a.state.pos,
                                               entity_b.state.pos)
-        delta_position = Equations.delta_position(entity_a.state.pos,
-                                                  entity_b.state.pos)
         distance_of_collision = Equations.min_distance(entity_a.state.size,
                                                        entity_b.state.size)
         # If entities are not with each other distances there is not collison
@@ -205,14 +203,15 @@ class Equations:
     @staticmethod
     def calculate_position(position, velocity, timestamp, world_size=None):
         new_position = position + velocity * timestamp
+        border_additional_margin = 5
         if world_size:
-            if new_position[0] > world_size[0]:
+            if new_position[0] > world_size[0] + border_additional_margin:
                 new_position[0] = world_size[0]
-            if new_position[0] < 0:
+            if new_position[0] < -border_additional_margin:
                 new_position[0] = 0
-            if new_position[1] > world_size[1]:
+            if new_position[1] > world_size[1] + border_additional_margin:
                 new_position[1] = world_size[1]
-            if new_position[1] < 0:
+            if new_position[1] < -border_additional_margin:
                 new_position[1] = 0
         return np.nan_to_num(new_position)
 
@@ -246,7 +245,8 @@ class Equations:
         if pos_a[1] <= pos_b[1]:
             a_direction_result = a_direction_result * (1, -1)
 
-        return (a_direction_result, a_direction_result * (-1, -1))
+        b_direction_result = a_direction_result * (-1, -1)
+        return (a_direction_result, b_direction_result)
 
     @staticmethod
     def momentum(mass_a, vel_a):
@@ -265,6 +265,7 @@ class Equations:
 
     @staticmethod
     def calculate_border_force(entity_pos, world_size, entity_force, force_modifier=1, margin=1):
+        margin = margin * (1)
         b_force = entity_force * force_modifier
         if (entity_pos[0] >= world_size[0] - margin) or (entity_pos[0] <= margin):
             b_force = b_force * (-1, 1)

@@ -13,7 +13,7 @@ import numpy as np
 class BaseScenario(ABC):
 
     def __init__(self):
-        pass
+        self.obs_world_shape = (80, 80, 3)
 
     @abstractmethod
     def generate_world(self):
