@@ -22,9 +22,9 @@ class PhysicEngine():
         if not world.state.size:
             return entities_forces
         for i, agent in enumerate(world.objects_all):
-            if Equations.is_touching_border(agent.state.pos, world.state.size, agent.state.size):
+            if Equations.is_touching_border(agent.state.pos, world.state.size, agent.state.size+2):
                 b_force = Equations.calculate_border_force(
-                    agent.state.pos, world.state.size, entities_forces[i], 10, 50)
+                    agent.state.pos, world.state.size, entities_forces[i], 1, agent.state.size+2)
                 entities_forces[i] = entities_forces[i] + b_force
         return entities_forces
 
@@ -64,10 +64,6 @@ class PhysicEngine():
                                                                                      force_a,
                                                                                      force_b)
 
-                print(f"""
-                Force A ({entity_a.uuid}): {entities_forces[i_a]}  <-  {force_a}
-                Force B ({entity_b.uuid}): {entities_forces[i_b]}  <-  {force_b}
-                """)
                 entities_forces[i_a] = entities_forces[i_a] + force_a
                 entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
@@ -77,8 +73,6 @@ class PhysicEngine():
         for i, entity in enumerate(world.objects_all):
             # This check is unnecessary, at this point not forces
             # should be applyed if entity can not move
-            print(
-                f" Force applied on entity at the end of step:\n  {entity.uuid} ->  {entities_forces[i]}")
             if entity.can_move:
                 # Calculate new velocity for entity
                 entity.state.vel = Equations.calculate_velocity(entity.state.vel,
@@ -106,7 +100,7 @@ class PhysicEngine():
         distance_of_collision = Equations.min_distance(entity_a.state.size,
                                                        entity_b.state.size)
         # If entities are not with each other distances there is not collison
-        if distance_between > distance_of_collision:
+        if distance_between > distance_of_collision+0.5:
             return force_a, force_b
 
         i_force = Equations.impact_force(entity_a.state.mass,
@@ -143,8 +137,6 @@ class PhysicEngine():
                                                 entity_b.state.mass,
                                                 distance_between)
 
-        force_a_init, force_b_init = force_a, force_b
-
         def apply_gravity_force(g_force, entity_force):
             # TODO Fix gravity force
             return entity_force + g_force
@@ -153,13 +145,6 @@ class PhysicEngine():
             force_a = apply_gravity_force(-g_force, force_a)
         if entity_b.can_be_moved:
             force_b = apply_gravity_force(+g_force, force_b)
-
-        print(f""" 
-            Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
-            Initial forces: {force_a_init} | {force_b_init}
-            Result forces: {force_a} | {force_b}
-            Grvitational force: {g_force}
-        """)
         return force_a, force_b
 
 
@@ -224,16 +209,14 @@ class Equations:
     # F = m * a    // force = mass * velocity
     @staticmethod
     def impact_force(mass_a, mass_b, distance, velocity_a, velocity_b, timestamp):
-        # F = 1/2 * m * v^2 / d
-        impact_force = 0.5 * (mass_a + mass_b) * \
-            np.power(abs(velocity_a) + abs(velocity_b), 2) / distance
+        # # F = 1/2 * m * v^2 / d
+        # impact_force = 0.5 * (mass_a + mass_b) * \
+        #     np.power(abs(velocity_a) + abs(velocity_b), 2) / distance
 
         # F = 2mv*dt
-        # impact_force = 2 * (mass_a + mass_b) * \
-        #     (abs(velocity_a) + abs(velocity_b)) * timestamp
-        print(
-            f'Impact_force: {impact_force} | Va: {velocity_a}, Vb: {velocity_b}, d: {distance}')
-        return np.nan_to_num(impact_force)
+        impact_force = 2 * (mass_a + mass_b) * \
+            (abs(velocity_a) + abs(velocity_b)) * timestamp
+        return np.nan_to_num(impact_force) * 2
 
     # Help to calculate direction of impact force between objects
     @staticmethod
@@ -260,7 +243,7 @@ class Equations:
 
     @staticmethod
     def is_touching_border(entity_pos, world_size, margin=1):
-        if (entity_pos[0] > world_size[0] - margin) or (entity_pos[0] < margin) or (entity_pos[1] > world_size[1] - margin) or (entity_pos[1] < margin):
+        if (entity_pos[0] >= world_size[0] - margin) or (entity_pos[0] <= margin) or (entity_pos[1] >= world_size[1] - margin) or (entity_pos[1] <= margin):
             return True
 
     @staticmethod

@@ -55,7 +55,7 @@ def load_scenario_from_file(file_path, is_absolute):
 class ScenarioUtils():
 
     @staticmethod
-    def get_graphical_observation(agent, world, output_shape=(250, 250, 3)):
+    def get_graphical_observation(agent, world, output_shape=(100, 100, 3)):
         image = 255 * np.ones(output_shape, np.uint8)
         scaler = Scaler(world.state.size, (output_shape[0], output_shape[1]))
         for agent in world.objects_all:
@@ -71,4 +71,7 @@ class ScenarioUtils():
                                     image,
                                     1 - oppacity,
                                     0)
+        cv2.imshow('ttt', image)
+        cv2.waitKey(2)
+        input('...')
         return image
