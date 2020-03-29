@@ -119,12 +119,6 @@ class PhysicEngine():
         if entity_b.can_be_moved:
             force_b = force_b + (i_force * force_vector_modulator[1])
 
-        print(f""" 
-            Entity_a: {entity_a.uuid} Entity_b: {entity_b.uuid}
-            Initial forces: {force_a_init} | {force_b_init}
-            Result forces: {force_a} | {force_b}
-            Impact force: {i_force}
-        """)
         return force_a, force_b
 
     def __apply_gravitational_force_between_entities(self, entity_a, entity_b, force_a, force_b):

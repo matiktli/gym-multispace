@@ -31,8 +31,6 @@ class World():
             if agent.action_callback:
                 # Pass agent and world to agent action callback func
                 agent.action = agent.action_callback(agent, self)
-            else:
-                print(f"Agent: {agent.uuid} do not have callback function!")
         return agents
 
     def __proccess_physic_state(self):

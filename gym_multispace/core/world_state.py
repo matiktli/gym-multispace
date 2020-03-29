@@ -12,7 +12,7 @@ class WorldState():
 
         self.dim = WorldState.WORLD_DIM_2D
 
-        self.size = WorldState.WORLD_SIZE_2D_MEDIUM
+        self.size = WorldState.WORLD_SIZE_2D_SMALL
 
         # Time in between of simulation events in seconds
         self.timestamp = 0.1
