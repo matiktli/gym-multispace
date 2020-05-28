@@ -85,3 +85,9 @@ class World():
     @property
     def objects_special_type(self, type):
         raise NotImplementedError()
+
+    def get_object_by_name(self, name):
+        for obj in self.objects_all:
+            if obj.uuid == name:
+                return obj
+        return None

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import gym_multispace.core.entity_state as states
 import gym_multispace.core.action as actions
+from collections import deque
 
 
 # Entity is representing part of space in the world

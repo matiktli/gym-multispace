@@ -42,8 +42,10 @@ class MultiAgentSpaceEnv(gym.Env):
         observation_n, reward_n, done_n, info_n = [], [], [], []
         self.agents = self.world.objects_agents_ai
 
+        # input(f'Actions: {action_n}')
         # set agents actions
         for i, agent in enumerate(self.agents):
+            print('Action_n: ', action_n)
             self.__set_action_for_agent(
                 action_n[i], agent, self.action_space[i])
 
@@ -183,6 +185,7 @@ class MultiAgentSpaceEnv(gym.Env):
         agent.action.move_act = np.zeros(self.world.state.dim)
         if agent.can_move:
             if self.is_discrete:
+                print('Getting by id: ', action)
                 action = ACTION.get_by_id(action)
                 agent.action.move_act += action.value['vector_2d']
             else:

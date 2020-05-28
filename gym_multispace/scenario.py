@@ -37,7 +37,7 @@ class BaseScenario(ABC):
         return False
 
     def get_info(self, agent, world):
-        return ["NO INFO DATA"]
+        return "NO INFO DATA"
 
 
 # Utility function to load scenarios from python file

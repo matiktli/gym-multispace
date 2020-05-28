@@ -6,7 +6,6 @@ import math
 
 class PhysicEngine():
 
-    # Apply forces coresponding to actions taken by agents
     def apply_actions_forces(self, world, entities_forces):
         # Apply forces from interactions between objects
         # Action passed into the Engine is already in dim of the world
@@ -38,8 +37,6 @@ class PhysicEngine():
                 entities_forces[i] = entities_forces[i] + m_force
         return entities_forces
 
-    # Apply physical forces of environment and forces between objects
-
     def apply_physical_interaction_forces(self, world, entities_forces):
         # Each object interact with all other entities in the world besides of itself
         for i_a, entity_a in enumerate(world.objects_all):
@@ -68,7 +65,6 @@ class PhysicEngine():
                 entities_forces[i_b] = entities_forces[i_b] + force_b
         return entities_forces
 
-    # Calculate new state of entities/world after all forces applied
     def calculate_new_state(self, world, entities_forces):
         for i, entity in enumerate(world.objects_all):
             # This check is unnecessary, at this point not forces
